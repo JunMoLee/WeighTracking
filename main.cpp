@@ -131,14 +131,14 @@ int main() {
 	double NL_LTP_Gn = static_cast<RealDevice*>(arrayIH->cell[0][0])->NL_LTP_Gn;
 	int CS = static_cast<RealDevice*>(arrayIH->cell[0][0])->maxNumLevelLTP;
 	double LA = param->alpha1;
-	printf("opt: %s NL:%.2f N: %d CS: %d LA: %.2f\n", param->optimization_type, NL, N, CS, LA);
+	printf("opt: %s NL_GP:%.1f NL_Gn:%.1f CS: %d LA: %.2f\n", param->optimization_type, NL_LTP_Gp, NL_LTP_Gn, CS, LA);
 	string filename;
 	filename.append(param->optimization_type);
 	char tempfile[10];
-	sprintf(tempfile, "%.2f", NL_LTP_Gp);
+	sprintf(tempfile, "%.1f", NL_LTP_Gp);
 	filename.append(tempfile);
 	// filename.append("/");
-	sprintf(tempfile, "%.2f", NL_LTP_Gn);
+	sprintf(tempfile, "%.1f", NL_LTP_Gn);
 	filename.append(tempfile);
 	// filename.append("/");
 	sprintf(tempfile, "%d", CS);
