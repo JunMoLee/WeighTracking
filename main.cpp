@@ -126,9 +126,31 @@ int main() {
 	if (param->useHardwareInTraining) { WeightToConductance(); }
 
 	srand(0);	// Pseudorandom number seed
-	
-	ofstream mywriteoutfile;
-	mywriteoutfile.open("my_log.csv");                                                                                                            
+
+	double NL_LTP_Gp = static_cast<RealDevice*>(arrayIH->cell[0][0])->NL_LTP_Gp;
+	double NL_LTP_Gn = static_cast<RealDevice*>(arrayIH->cell[0][0])->NL_LTP_Gn;
+	int CS = static_cast<RealDevice*>(arrayIH->cell[0][0])->maxNumLevelLTP;
+	double LA = param->alpha1;
+	printf("opt: %s NL:%.2f N: %d CS: %d LA: %.2f\n", param->optimization_type, NL, N, CS, LA);
+	string filename;
+	filename.append(param->optimization_type);
+	char tempfile[10];
+	sprintf(tempfile, "%.2f", NL_LTP_Gp);
+	filename.append(tempfile);
+	// filename.append("/");
+	sprintf(tempfile, "%.2f", NL_LTP_Gn);
+	filename.append(tempfile);
+	// filename.append("/");
+	sprintf(tempfile, "%d", CS);
+	filename.append(tempfile);
+	// filename.append("/");
+	sprintf(tempfile, "%.2f", LA);
+	filename.append(tempfile);
+	// filename.append("/");
+	// filename.append(".csv");
+	ofstream mywriteoutfile;    
+	mywriteoutfile.open(filename+".csv");
+                                                                                         
 	
 	for (int i=1; i<=param->totalNumEpochs/param->interNumEpochs; i++) {
         //cout << "Training Epoch : " << i << endl;
