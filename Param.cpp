@@ -44,7 +44,8 @@ Param::Param() {
 	/* MNIST dataset */
 	numMnistTrainImages = 60000;// # of training images in MNIST
 	numMnistTestImages = 10000;	// # of testing images in MNIST
-	
+	const double
+        l=40;
 	/* Algorithm parameters */
 	numTrainImagesPerEpoch = 8000;	// # of training images per epoch
 	totalNumEpochs = 125;	// Total number of epochs
@@ -52,8 +53,8 @@ Param::Param() {
 	nInput = 400;     // # of neurons in input layer
 	nHide = 100;      // # of neurons in hidden layer
 	nOutput = 10;     // # of neurons in output layer
-	alpha1 = 0.4;	// Learning rate for the weights from input to hidden layer
-	alpha2 = 0.2;	// Learning rate for the weights from hidden to output layer
+	alpha1 =l/100.0;	// Learning rate for the weights from input to hidden layer
+	alpha2 =l/2.0/100.0;	// Learning rate for the weights from hidden to output layer
 	maxWeight = 1;	// Upper bound of weight value
 	minWeight = -1;	// Lower bound of weight value
     /*Optimization method 
@@ -84,6 +85,8 @@ Param::Param() {
 	clkFreq = 2e9;		// Clock frequency (Hz)
 
 	RefreshRate = 100;
- 
+param_gp=0;
+param_gn=0;
 }
+
 

@@ -83,7 +83,8 @@ public:
 	double arrayWireWidth;	// Array wire width (nm)
 	int processNode;	// Technology node (nm)
 	double clkFreq;		// Clock frequency (Hz)
-
+double param_gp;
+double param_gn;
 	int RefreshRate;
 };
 

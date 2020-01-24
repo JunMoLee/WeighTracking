@@ -58,12 +58,11 @@
 using namespace std;
 
 int main() {
-	gen.seed(0);
-	
+
+	gen.seed(0);	
 	/* Load in MNIST data */
 	ReadTrainingDataFromFile("patch60000_train.txt", "label60000_train.txt");
 	ReadTestingDataFromFile("patch10000_test.txt", "label10000_test.txt");
-
 	/* Initialization of synaptic array from input to hidden layer */
 	//arrayIH->Initialization<IdealDevice>();
 	arrayIH->Initialization<RealDevice>();
@@ -131,34 +130,20 @@ int main() {
 	double NL_LTP_Gn = static_cast<RealDevice*>(arrayIH->cell[0][0])->NL_LTP_Gn;
 	int CS = static_cast<RealDevice*>(arrayIH->cell[0][0])->maxNumLevelLTP;
 	double LA = param->alpha1;
-	printf("opt: %s NL_GP:%.1f NL_Gn:%.1f CS: %d LA: %.2f\n", param->optimization_type, NL_LTP_Gp, NL_LTP_Gn, CS, LA);
-	string filename;
-	filename.append(param->optimization_type);
-	char tempfile[10];
-	sprintf(tempfile, "%.1f", NL_LTP_Gp);
-	filename.append(tempfile);
-	// filename.append("/");
-	sprintf(tempfile, "%.1f", NL_LTP_Gn);
-	filename.append(tempfile);
-	// filename.append("/");
-	sprintf(tempfile, "%d", CS);
-	filename.append(tempfile);
-	// filename.append("/");
-	sprintf(tempfile, "%.2f", LA);
-	filename.append(tempfile);
-	// filename.append("/");
-	// filename.append(".csv");
-	ofstream mywriteoutfile;    
-	mywriteoutfile.open(filename+".csv");
-                                                                                         
+	printf("opt: %s NL_Gp:%.1f NL_Gn:%.1f CS: %d LA: %.2f\n", param->optimization_type, NL_LTP_Gp, NL_LTP_Gn, CS, LA);
+bool write_or_not=1;
+fstream read;
+read.open("a_200117.csv",fstream::app);                                                         
 	
-	for (int i=1; i<=param->totalNumEpochs/param->interNumEpochs; i++) {
+	for (int i=1; i<=10; i++) {
         //cout << "Training Epoch : " << i << endl;
 		Train(param->numTrainImagesPerEpoch, param->interNumEpochs,param->optimization_type);
 		if (!param->useHardwareInTraining && param->useHardwareInTestingFF) { WeightToConductance(); }
 		Validate();
-		mywriteoutfile << i*param->interNumEpochs << ", " << (double)correct/param->numMnistTestImages*100 << endl;
-		
+if(write_or_not){
+
+		read <<param->optimization_type<<", "<<NL_LTP_Gp<<", "<<NL_LTP_Gn<<", "<<CS<<", "<<LA<<", "<<i*param->interNumEpochs << ", " << (double)correct/param->numMnistTestImages*100 << endl;
+		}
 		printf("%.2f\n", (double)correct/param->numMnistTestImages*100);
 		/*printf("\tRead latency=%.4e s\n", subArrayIH->readLatency + subArrayHO->readLatency);
 		printf("\tWrite latency=%.4e s\n", subArrayIH->writeLatency + subArrayHO->writeLatency);
@@ -166,6 +151,8 @@ int main() {
 		printf("\tWrite energy=%.4e J\n", arrayIH->writeEnergy + subArrayIH->writeDynamicEnergy + arrayHO->writeEnergy + subArrayHO->writeDynamicEnergy);*/
 	}
 	printf("\n");
+        printf("\n");
+
 	return 0;
 }
 

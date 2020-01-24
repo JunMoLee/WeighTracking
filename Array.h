@@ -53,17 +53,21 @@ public:
 	double wireGateCapRow;	// Cap of 1T1R WL cap
 	double wireCapBLCol;	// Cap of 1T1R BL cap in digital eNVM
 	double readEnergy, writeEnergy;
-    double transferReadEnergy, transferWriteEnergy, transferEnergy; // the transfer energy for the hybrid cell
+        double transferReadEnergy, transferWriteEnergy, transferEnergy; // the transfer energy for the hybrid cell
 	int numCellPerSynapse;	// For SRAM to use redundant cells to represent one synapse
 	double writeEnergySRAMCell;	// Write energy per SRAM cell (will move this to SRAM cell level in the future)
 	bool **weightChange;	// Specify if the weight value will change or not during weight update (for SRAM and digital eNVM)
     int refColumnNumber;
+double p;
+double n;
 	/* Constructor */
     // code modified
-	Array(int arrayColSize, int arrayRowSize, int wireWidth) {  
+	Array(int arrayColSize, int arrayRowSize, int wireWidth,double lp, double ln) {  
         this->arrayRowSize = arrayRowSize;
         this->arrayColSize = arrayColSize;
         this->wireWidth = wireWidth;
+this-> p=lp;
+this->  n=ln; //code modified
 		readEnergy = 0;
 		writeEnergy = 0;
         transferReadEnergy = transferWriteEnergy = 0;
@@ -77,7 +81,7 @@ public:
 	}
 
 	template <class memoryType>
-	void Initialization(int numCellPerSynapse=1,bool refColumn = false) { // default value is 1
+	void Initialization(int numCellPerSynapse=1,bool refColumn = false){ // default value is 1
 		/* Determine number of cells per synapse (SRAM and DigitalNVM) */
 		this->numCellPerSynapse = numCellPerSynapse;
 
@@ -91,7 +95,7 @@ public:
 		for (int col=0; col<cellsPerRow; col++) {
 			cell[col] = new Cell*[arrayRowSize];
 			for (int row=0; row<arrayRowSize; row++) {
-				cell[col][row] = new memoryType(col, row);
+				cell[col][row] = new memoryType(col, row,this-> p,this-> n);
 			}
 		}
         // initialize the conductance of the reference column

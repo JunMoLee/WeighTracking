@@ -153,7 +153,7 @@ void AnalogNVM::WriteEnergyCalculation(double wireCapCol) {
 }
 
 /* Ideal device (no weight update nonlinearity) */
-IdealDevice::IdealDevice(int x, int y) {
+IdealDevice::IdealDevice(int x, int y,double  p, double n) {
 	this->x = x; this->y = y;	// Cell location: x (column) and y (row) start from index 0
 	maxConductance = 5e-6;		// Maximum cell conductance (S)
 	minConductance = 100e-9;	    // Minimum cell conductance (S)
@@ -178,7 +178,10 @@ IdealDevice::IdealDevice(int x, int y) {
 	nonlinearIV = false;	// Consider I-V nonlinearity or not (Currently for cross-point array only)
 	nonIdenticalPulse = false;	// Use non-identical pulse scheme in weight update or not (should be false here)
 								// Don't care other non-identical pulse parameters
-	NL = 10;	// Nonlinearity in write scheme (the current ratio between Vw and Vw/2), assuming for the LTP side
+	NL_LTP_Gp=p;
+        NL_LTP_Gn=n;
+
+          NL = 10;	// Nonlinearity in write scheme (the current ratio between Vw and Vw/2), assuming for the LTP side
 	if (nonlinearIV) {	// Currently for cross-point array only
 		double Vr_exp = readVoltage;  // XXX: Modify this value to Vr in the reported measurement data (can be different than readVoltage)
 		// Calculation of conductance at on-chip Vr
@@ -257,10 +260,13 @@ void IdealDevice::Write(double deltaWeightNormalized, double weight, double minW
 }
 
 /* Real Device */
-RealDevice::RealDevice(int x, int y) {
+RealDevice::RealDevice(int x, int y, double p, double n) {
 	this->x = x; this->y = y;	// Cell location: x (column) and y (row) start from index 0
-	maxConductance = 3.8462e-8;		// Maximum cell conductance (S)
-	minConductance = 3.0769e-9;	// Minimum cell conductance (S)
+	const double n;
+	n = 10;
+	minConductance = 3.0769e-9;
+	maxConductance = 3.0769e-9 * n;		// Maximum cell conductance (S)
+	// Minimum cell conductance (S)
 	//maxConductance = 1/4.71e6;
 	//minConductance = maxConductance / 19.6;
 	avgMaxConductance = 2*maxConductance-minConductance; // Average maximum cell conductance (S)
@@ -277,8 +283,11 @@ RealDevice::RealDevice(int x, int y) {
 	writePulseWidthLTP = 300e-6;	// Write pulse width (s) for LTP or weight increase
 	writePulseWidthLTD = 300e-6;	// Write pulse width (s) for LTD or weight decrease
 	writeEnergy = 0;	// Dynamic variable for calculation of write energy (J)
-	maxNumLevelLTP = 100;	// Maximum number of conductance states during LTP or weight increase
-	maxNumLevelLTD = 100;	// Maximum number of conductance states during LTD or weight decrease
+
+	const double k;
+	k = 2;
+	maxNumLevelLTP = k;	// Maximum number of conductance states during LTP or weight increase
+	maxNumLevelLTD = k;	// Maximum number of conductance states during LTD or weight decrease
 	numPulse = 0;	// Number of write pulses used in the most recent write operation (dynamic variable)
 	cmosAccess = true;	// True: Pseudo-crossbar (1T1R), false: cross-point
     FeFET = false;		// True: FeFET structure (Pseudo-crossbar only, should be cmosAccess=1)
@@ -315,8 +324,13 @@ RealDevice::RealDevice(int x, int y) {
 	/* Device-to-device weight update variation */
 	NL_LTP = 2.4;	// LTP nonlinearity
 	NL_LTD = -4.88;	// LTD nonlinearity
-	NL_LTP_Gp = 2.0;
-	NL_LTP_Gn = 0;
+
+	const double m;
+	m = 0;
+
+	NL_LTP_Gp=m;
+	NL_LTP_Gn=m;
+
 	sigmaDtoD = 0;	// Sigma of device-to-device weight update vairation in gaussian distribution
 	gaussian_dist2 = new std::normal_distribution<double>(0, sigmaDtoD);	// Set up mean and stddev for device-to-device weight update vairation
 	paramALTP = getParamA(NL_LTP + (*gaussian_dist2)(localGen)) * maxNumLevelLTP;	// Parameter A for LTP nonlinearity
@@ -483,7 +497,7 @@ void RealDevice::Erase()
 }
 
 /* Measured device */
-MeasuredDevice::MeasuredDevice(int x, int y) {
+MeasuredDevice::MeasuredDevice(int x, int y,double p, double n){
 	this->x = x; this->y = y;	// Cell location: x (column) and y (row) start from index 0
 	readVoltage = 0.5;	// On-chip read voltage (Vr) (V)
 	readPulseWidth = 5e-9;	// Read pulse width (s) (will be determined by ADC)
@@ -500,6 +514,8 @@ MeasuredDevice::MeasuredDevice(int x, int y) {
 	nonlinearIV = false;	// Currently for cross-point array only
 	nonlinearWrite = false;	// Consider weight update nonlinearity or not
 	nonIdenticalPulse = false;	// Use non-identical pulse scheme in weight update or not
+NL_LTP_Gn=p;
+NL_LTP_Gp=n;
 	if (nonIdenticalPulse) {
 		VinitLTP = 2.85;    // Initial write voltage for LTP or weight increase (V)
 		VstepLTP = 0.05;    // Write voltage step for LTP or weight increase (V)
