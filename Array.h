@@ -57,27 +57,29 @@ public:
 	int numCellPerSynapse;	// For SRAM to use redundant cells to represent one synapse
 	double writeEnergySRAMCell;	// Write energy per SRAM cell (will move this to SRAM cell level in the future)
 	bool **weightChange;	// Specify if the weight value will change or not during weight update (for SRAM and digital eNVM)
-    int refColumnNumber;
-double p;
-double n;
+        int refColumnNumber;
+        double p;
+        double n;
 	/* Constructor */
-    // code modified
-	Array(int arrayColSize, int arrayRowSize, int wireWidth,double lp, double ln) {  
+        // code modified
+	Array(int arrayColSize, int arrayRowSize, int wireWidth, double lp, double ln)
+	{  
         this->arrayRowSize = arrayRowSize;
         this->arrayColSize = arrayColSize;
         this->wireWidth = wireWidth;
-this-> p=lp;
-this->  n=ln; //code modified
-		readEnergy = 0;
-		writeEnergy = 0;
+        this-> p=lp;
+        this-> n=ln; //code modified
+        readEnergy = 0;
+        writeEnergy = 0;
         transferReadEnergy = transferWriteEnergy = 0;
         transferEnergy = 0;
 
-		/* Initialize weightChange */
-		weightChange = new bool*[arrayColSize];
-		for (int col=0; col<arrayColSize; col++) {
-			weightChange[col] = new bool[arrayRowSize];
-		}
+        /* Initialize weightChange */
+	weightChange = new bool*[arrayColSize];
+	for (int col=0; col<arrayColSize; col++) {
+	weightChange[col] = new bool[arrayRowSize];
+	}
+		
 	}
 
 	template <class memoryType>
@@ -95,9 +97,10 @@ this->  n=ln; //code modified
 		for (int col=0; col<cellsPerRow; col++) {
 			cell[col] = new Cell*[arrayRowSize];
 			for (int row=0; row<arrayRowSize; row++) {
-				cell[col][row] = new memoryType(col, row,this-> p,this-> n);
+				cell[col][row] = new memoryType(col, row, this-> p, this-> n);
 			}
 		}
+		
         // initialize the conductance of the reference column
         if(refColumn = true)
         {
@@ -116,7 +119,7 @@ this->  n=ln; //code modified
 		double AR;	// Aspect ratio of wire height to wire width
 		double Rho;	// Resistivity
 		switch(wireWidth) {// wireWidth is defined in the param.cpp
-      case 800: AR = 2.10; Rho= 2.42e-8; break;
+                        case 800: AR = 2.10; Rho= 2.42e-8; break;
 			case 200: AR = 2.10; Rho = 2.42e-8; break;
 			case 100:	AR = 2.30; Rho = 2.73e-8; break;
 			case 50:	AR = 2.34; Rho = 3.91e-8; break;
