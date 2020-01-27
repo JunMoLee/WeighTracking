@@ -262,10 +262,10 @@ void IdealDevice::Write(double deltaWeightNormalized, double weight, double minW
 /* Real Device */
 RealDevice::RealDevice(int x, int y, double p, double n) {
 	this->x = x; this->y = y;	// Cell location: x (column) and y (row) start from index 0
-	const double n;
-	n = 10;
+	const double t;
+	t = 10;
 	minConductance = 3.0769e-9;
-	maxConductance = 3.0769e-9 * n;		// Maximum cell conductance (S)
+	maxConductance = 3.0769e-9 * t;		// Maximum cell conductance (S)
 	// Minimum cell conductance (S)
 	//maxConductance = 1/4.71e6;
 	//minConductance = maxConductance / 19.6;
@@ -285,7 +285,7 @@ RealDevice::RealDevice(int x, int y, double p, double n) {
 	writeEnergy = 0;	// Dynamic variable for calculation of write energy (J)
 
 	const double k;
-	k = 2;
+	k = 16;
 	maxNumLevelLTP = k;	// Maximum number of conductance states during LTP or weight increase
 	maxNumLevelLTD = k;	// Maximum number of conductance states during LTD or weight decrease
 	numPulse = 0;	// Number of write pulses used in the most recent write operation (dynamic variable)
@@ -325,11 +325,9 @@ RealDevice::RealDevice(int x, int y, double p, double n) {
 	NL_LTP = 2.4;	// LTP nonlinearity
 	NL_LTD = -4.88;	// LTD nonlinearity
 
-	const double m;
-	m = 0;
 
-	NL_LTP_Gp=m;
-	NL_LTP_Gn=m;
+	NL_LTP_Gp=p;
+	NL_LTP_Gn=n;
 
 	sigmaDtoD = 0;	// Sigma of device-to-device weight update vairation in gaussian distribution
 	gaussian_dist2 = new std::normal_distribution<double>(0, sigmaDtoD);	// Set up mean and stddev for device-to-device weight update vairation
