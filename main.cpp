@@ -133,9 +133,9 @@ int main() {
 	printf("opt: %s NL_Gp:%.1f NL_Gn:%.1f CS: %d LA: %.2f\n", param->optimization_type, NL_LTP_Gp, NL_LTP_Gn, CS, LA);
 bool write_or_not=1;
 fstream read;
-read.open("a_200117.csv",fstream::app);                                                         
+read.open("c_200127.csv",fstream::app);                                                         
 	
-	for (int i=1; i<=10; i++) {
+	for (int i=1; i<=25; i++) {
         //cout << "Training Epoch : " << i << endl;
 		Train(param->numTrainImagesPerEpoch, param->interNumEpochs,param->optimization_type);
 		if (!param->useHardwareInTraining && param->useHardwareInTestingFF) { WeightToConductance(); }
