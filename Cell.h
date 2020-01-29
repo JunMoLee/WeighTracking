@@ -69,7 +69,7 @@ public:
 	double avgMaxConductance;   // Average maximum cell conductance (S)
 	double avgMinConductance;   // Average minimum cell conductance (S)
 	bool cmosAccess;	// True: Pseudo-crossbar (1T1R), false: cross-point
-    bool isSTTMRAM; // if it is a STTMRAM device
+        bool isSTTMRAM; // if it is a STTMRAM device
     // modified above
 	bool FeFET;			// True: FeFET structure (Pseudo-crossbar only, should be cmosAccess=1)
 	double resistanceAccess;	// The resistance of transistor (Ohm) in Pseudo-crossbar array when turned ON
@@ -183,12 +183,15 @@ public:
 	double paramBLTD;	// Parameter B for LTD nonlinearity
 	double sigmaDtoD;	// Sigma of device-to-device variation on weight update nonliearity baseline
 	double sigmaCtoC;	// Sigma of cycle-to-cycle variation on weight update
-
+        double pminConductance;
+	double pmaxConductance;
+	double nminConductance;
+	double nmaxConductance;
 	/*PCM*/
 	double NL_LTP_Gp;
-	double NL_LTN_Gp;
+	double NL_LTD_Gp;
 	double NL_LTP_Gn;
-	double NL_LTN_Gn;
+	double NL_LTD_Gn;
 	double paramAGp;
 	double paramAGpd;
 	double paramAGn;
