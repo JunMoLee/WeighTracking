@@ -113,7 +113,7 @@ public:
                     static_cast<DigitalNVM*>(this->cell[refColumnNumber+1][row])->conductance = static_cast<DigitalNVM*>(this->cell[refColumnNumber+1][row])->maxConductance;
                 }
             }    
-        }
+        } 
 		
 		/* Initialize interconnect wires */
 		double AR;	// Aspect ratio of wire height to wire width
