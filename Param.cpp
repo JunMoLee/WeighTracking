@@ -85,6 +85,7 @@ Param::Param() {
 	clkFreq = 2e9;		// Clock frequency (Hz)
 
 	RefreshRate = 100;
+	newUpdateRate = 100;
 const double
 a=0;
 	
