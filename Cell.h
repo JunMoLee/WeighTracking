@@ -114,8 +114,10 @@ public:
 
 class AnalogNVM: public eNVM {
 public:
-	int maxNumLevelLTP;	// Maximum number of conductance states during LTP or weight increase
-	int maxNumLevelLTD;	// Maximum number of conductance states during LTD or weight decrease
+	int maxNumLevelpLTP;	// Maximum number of conductance states during LTP or weight increase
+	int maxNumLevelpLTD;	// Maximum number of conductance states during LTD or weight decrease
+	int maxNumLevelnLTP;
+	int maxNumLevelnLTD;
 	int numPulse;   // Number of write pulses used in the most recent write operation (Positive number: LTP, Negative number: LTD) (dynamic variable)
 	double writeLatencyLTP;	// Write latency of a cell during LTP or weight increase (different cells use different # write pulses, thus latency values are different). writeLatency will be calculated for each cell first, and then replaced by the maximum one in the batch write.
 	double writeLatencyLTD;	// Write latency of a cell during LTD or weight decrease (different cells use different # write pulses, thus latency values are different). writeLatency will be calculated for each cell first, and then replaced by the maximum one in the batch write.
@@ -185,9 +187,13 @@ public:
 
 	/*PCM*/
 	double NL_LTP_Gp;
+	double NL_LTN_Gp;
 	double NL_LTP_Gn;
+	double NL_LTN_Gn;
 	double paramAGp;
+	double paramAGpd;
 	double paramAGn;
+	double paramAGnd;
 	RealDevice(int x, int y, double p, double  n);
 	double Read(double voltage);	// Return read current (A)
 	void Write(double deltaWeightNormalized, double weight, double minWeight, double maxWeight);
