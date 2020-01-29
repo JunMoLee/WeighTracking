@@ -264,6 +264,8 @@ RealDevice::RealDevice(int x, int y, double p, double n) {
 	this->x = x; this->y = y;	// Cell location: x (column) and y (row) start from index 0
 	const double t;
 	t = 10;
+	maxConductance=0;
+	minConductance=0;
 	pminConductance = 3.0769e-9;
 	pmaxConductance = 3.0769e-9 * t;		// Maximum cell conductance (S)
 	
