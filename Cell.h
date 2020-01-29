@@ -193,6 +193,10 @@ public:
 	double paramAGpd;
 	double paramAGn;
 	double paramAGnd;
+	double paramBGp;
+	double paramBGpd;
+	double paramBGn;
+	double paramBGnd;
 	RealDevice(int x, int y, double p, double  n);
 	double Read(double voltage);	// Return read current (A)
 	void Write(double deltaWeightNormalized, double weight, double minWeight, double maxWeight);
