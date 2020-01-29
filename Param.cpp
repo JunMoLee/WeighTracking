@@ -85,7 +85,7 @@ Param::Param() {
 	clkFreq = 2e9;		// Clock frequency (Hz)
 
 	RefreshRate = 100;
-	newUpdateRate = 100;
+	newUpdateRate = 100; // rate of new update algorithm implementation (per # of images)
 const double
 a=0;
 	
