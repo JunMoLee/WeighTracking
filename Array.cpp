@@ -170,14 +170,22 @@ double Array::ReadCell(int x, int y, char* mode) {
 }
 
 void Array::WriteCell(int x, int y, double deltaWeight, double weight, double maxWeight, double minWeight, 
-						bool regular /* False: ideal write, True: regular write considering device properties */) {
+						bool regular /* False: ideal write, True: regular write considering device properties */, bool newupdate = 0) {
 	// TODO: include wire resistance
 	if (AnalogNVM *temp = dynamic_cast<AnalogNVM*>(**cell)) // Analog eNVM
     { 
 		//printf("Writing cell....\n");
         if (regular) 
         {	// Regular write
+		if(!newupdate){
 			static_cast<AnalogNVM*>(cell[x][y])->Write(deltaWeight, weight, minWeight, maxWeight);
+		}
+		// Reverse update
+		else {
+			static_cast<AnalogNVM*>(cell[x][y])->newWrite(deltaWeight, weight, minWeight, maxWeight);
+		}
+		
+		
 		} 
         else 
         {	// Preparation stage (ideal write)
@@ -191,7 +199,8 @@ void Array::WriteCell(int x, int y, double deltaWeight, double weight, double ma
             // ? should add "+minConductance"?
 			//deltaWeight = 2 * deltaWeight;
 			if (deltaWeight > 0) {
-				conductanceGp += deltaWeight* (maxConductance - minConductance);
+			
+				
 				if (conductanceGp > maxConductance)
 				{
 					conductanceGp = maxConductance;
@@ -202,7 +211,9 @@ void Array::WriteCell(int x, int y, double deltaWeight, double weight, double ma
 				}
 			}
 			else {
+				
 				conductanceGn -= deltaWeight * (maxConductance - minConductance);
+				
 				if (conductanceGn > maxConductance)
 				{
 					conductanceGn = maxConductance;
@@ -212,6 +223,8 @@ void Array::WriteCell(int x, int y, double deltaWeight, double weight, double ma
 					conductanceGn = minConductance;
 				}
 			}
+		
+		
 			conductance = conductanceGp - conductanceGn + conductanceRef;
 			static_cast<eNVM*>(cell[x][y])->conductanceGp = conductanceGp;
 			static_cast<eNVM*>(cell[x][y])->conductanceGn = conductanceGn;
