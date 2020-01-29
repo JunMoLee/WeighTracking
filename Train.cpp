@@ -116,26 +116,31 @@ double s1[param->nHide];    // Output delta from input layer to the hidden layer
 double s2[param->nOutput];  // Output delta from hidden layer to the output layer [param->nOutput]
 	
 	for (int t = 0; t < epochs; t++) {
+		
+		// iteration witin batch //
 		for (int batchSize = 0; batchSize < numTrain; batchSize++) {
 
 			int i = rand() % param->numMnistTrainImages;  // Randomize sample
-            //int i = 1;       // use this value for debug
+                        //int i = 1;       // use this value for debug
 			// Forward propagation
 			/* First layer (input layer to the hidden layer) */
 			std::fill_n(outN1, param->nHide, 0);
 			std::fill_n(a1, param->nHide, 0);
-        if (param->useHardwareInTrainingFF) {   // Hardware
-				double sumArrayReadEnergy = 0;   // Use a temporary variable here since OpenMP does not support reduction on class member
+			
+          if (param->useHardwareInTrainingFF) {   // Hardware
+		double sumArrayReadEnergy = 0;   // Use a temporary variable here since OpenMP does not support reduction on class member
                 double readVoltage; 
                 double readPulseWidth;
 
-           if(AnalogNVM *temp = dynamic_cast<AnalogNVM*>(arrayIH->cell[0][0]))
-           {
+          if (AnalogNVM *temp = dynamic_cast<AnalogNVM*>(arrayIH->cell[0][0]))
+            {
                  //printf("This is AnalogNVM\n");
                  readVoltage = static_cast<eNVM*>(arrayIH->cell[0][0])->readVoltage;
 				 readPulseWidth = static_cast<eNVM*>(arrayIH->cell[0][0])->readPulseWidth;
-           }
+            }
+		  
             #pragma omp parallel for reduction(+: sumArrayReadEnergy)
+		  
 				for (int j=0; j<param->nHide; j++) {
 					if (AnalogNVM *temp = dynamic_cast<AnalogNVM*>(arrayIH->cell[0][0])) {  // Analog eNVM
 						if (static_cast<eNVM*>(arrayIH->cell[0][0])->cmosAccess) {  // 1T1R
@@ -149,72 +154,75 @@ double s2[param->nOutput];  // Output delta from hidden layer to the output laye
 						}
 					}
                     
-					for (int n=0; n<param->numBitInput; n++) {
-						double pSumMaxAlgorithm = pow(2, n) / (param->numInputLevel - 1) * arrayIH->arrayRowSize;  // Max algorithm partial weighted sum for the nth vector bit (if both max input value and max weight are 1)
-						if (AnalogNVM *temp = dynamic_cast<AnalogNVM*>(arrayIH->cell[0][0])) {  // Analog eNVM
-                            //printf("calculating the current sum\n");
-							double Isum = 0;    // weighted sum current
-							double IsumMax = 0; // Max weighted sum current
-              double IsumMin = 0; 
-							double inputSum = 0;    // Weighted sum current of input vector * weight=1 column
-							for (int k=0; k<param->nInput; k++) {
+				for (int n=0; n<param->numBitInput; n++) {
+			            double pSumMaxAlgorithm = pow(2, n) / (param->numInputLevel - 1) * arrayIH->arrayRowSize;  // Max algorithm partial weighted sum for the nth vector bit (if both max input value and max weight are 1)
+					if (AnalogNVM *temp = dynamic_cast<AnalogNVM*>(arrayIH->cell[0][0])) {  // Analog eNVM
+                                        //printf("calculating the current sum\n");
+						double Isum = 0;    // weighted sum current
+						double IsumMax = 0; // Max weighted sum current
+                                                double IsumMin = 0; 
+						double inputSum = 0;    // Weighted sum current of input vector * weight=1 column
+					           for (int k=0; k<param->nInput; k++) {
 								if ((dInput[i][k]>>n) & 1) {    // if the nth bit of dInput[i][k] is 1
-									Isum += arrayIH->ReadCell(j,k);
-                                    inputSum += arrayIH->GetMediumCellReadCurrent(j,k);    // get current of Dummy Column as reference
-									sumArrayReadEnergy += arrayIH->wireCapRow * readVoltage * readVoltage; // Selected BLs (1T1R) or Selected WLs (cross-point)
+						                 Isum += arrayIH->ReadCell(j,k);
+                                                                 inputSum += arrayIH->GetMediumCellReadCurrent(j,k);    // get current of Dummy Column as reference
+								 sumArrayReadEnergy += arrayIH->wireCapRow * readVoltage * readVoltage; // Selected BLs (1T1R) or Selected WLs (cross-point)
 								}
-								IsumMax += arrayIH->GetMaxCellReadCurrent(j,k);
-                IsumMin += arrayIH->GetMinCellReadCurrent(j,k);
+						IsumMax += arrayIH->GetMaxCellReadCurrent(j,k);
+                                                IsumMin += arrayIH->GetMinCellReadCurrent(j,k);
 							}
-							sumArrayReadEnergy += Isum * readVoltage * readPulseWidth;
-							int outputDigits = 2*(CurrentToDigits(Isum, IsumMax-IsumMin)-CurrentToDigits(inputSum, IsumMax-IsumMin));   
-                            outN1[j] += DigitsToAlgorithm(outputDigits, pSumMaxAlgorithm);
+						
+						sumArrayReadEnergy += Isum * readVoltage * readPulseWidth;
+						int outputDigits = 2*(CurrentToDigits(Isum, IsumMax-IsumMin)-CurrentToDigits(inputSum, IsumMax-IsumMin));   
+                                                outN1[j] += DigitsToAlgorithm(outputDigits, pSumMaxAlgorithm);
 						}
-                        else 
-                        {    // SRAM or digital eNVM
-                            bool digitalNVM = false; 
-                            bool parallelRead = false;
-                            if(DigitalNVM*temp = dynamic_cast<DigitalNVM*>(arrayIH->cell[0][0]))
-                            {    digitalNVM = true;
-                                if(static_cast<DigitalNVM*>(arrayIH->cell[0][0])->parallelRead == true) 
-								{
-                                    parallelRead = true;
-                                }
-                            }
-                            if(digitalNVM && parallelRead) // parallel read-out for DigitalNVM
-                            {
-                                    //printf("This is parallel read-out\n");
-                                    double Imax = static_cast<DigitalNVM*>(arrayIH->cell[0][0])->avgMaxConductance*static_cast<DigitalNVM*>(arrayIH->cell[0][0])->readVoltage;
-                                    double Imin = static_cast<DigitalNVM*>(arrayIH->cell[0][0])->avgMinConductance*static_cast<DigitalNVM*>(arrayIH->cell[0][0])->readVoltage;
-                                    double Isum = 0;    // weighted sum current
-							        double IsumMax = 0; // Max weighted sum current
-							        double inputSum = 0;    // Weighted sum current of input vector * weight=1 column
-                                    int Dsum=0;
-                                    int DsumMax = 0;
-                                    int Dref = 0;
-                                    for (int w=0;w<param->numWeightBit;w++){
-                                        int colIndex = (j+1) * param->numWeightBit - (w+1);  // w=0 is the LSB
-									    for (int k=0; k<param->nInput; k++) 
-                                        {
-										    if((dInput[i][k]>>n) & 1){ // accumulate the current along a column
-											    Isum += static_cast<DigitalNVM*>(arrayIH->cell[colIndex][k])->conductance*static_cast<DigitalNVM*>(arrayIH->cell[colIndex ][k])->readVoltage;
-                                                inputSum += static_cast<DigitalNVM*>(arrayIH->cell[arrayIH->refColumnNumber][k])->conductance*static_cast<DigitalNVM*>(arrayIH->cell[arrayIH->refColumnNumber][k])->readVoltage;
-										    }
-									    }
+                                       else  {    // SRAM or digital eNVM
+                                           bool digitalNVM = false; 
+                                           bool parallelRead = false;
+                                       		if (DigitalNVM*temp = dynamic_cast<DigitalNVM*>(arrayIH->cell[0][0]))
+                                                {    digitalNVM = true;
+                                       			if(static_cast<DigitalNVM*>(arrayIH->cell[0][0])->parallelRead == true) {
+                                                            parallelRead = true;
+                                                        }
+                                                 }
+					     
+                                               if(digitalNVM && parallelRead) // parallel read-out for DigitalNVM 
+					       {
+                                           //printf("This is parallel read-out\n");
+                                               double Imax = static_cast<DigitalNVM*>(arrayIH->cell[0][0])->avgMaxConductance*static_cast<DigitalNVM*>(arrayIH->cell[0][0])->readVoltage;
+                                               double Imin = static_cast<DigitalNVM*>(arrayIH->cell[0][0])->avgMinConductance*static_cast<DigitalNVM*>(arrayIH->cell[0][0])->readVoltage;
+                                               double Isum = 0;    // weighted sum current
+					       double IsumMax = 0; // Max weighted sum current
+					       double inputSum = 0;    // Weighted sum current of input vector * weight=1 column
+                                               int Dsum=0;
+                                               int DsumMax = 0;
+                                               int Dref = 0;
+					       
+                                        for (int w=0;w<param->numWeightBit;w++){
+                                           int colIndex = (j+1) * param->numWeightBit - (w+1);  // w=0 is the LSB
+					     for (int k=0; k<param->nInput; k++) {
+						     
+						if((dInput[i][k]>>n) & 1){ // accumulate the current along a column
+						  Isum += static_cast<DigitalNVM*>(arrayIH->cell[colIndex][k])->conductance*static_cast<DigitalNVM*>(arrayIH->cell[colIndex ][k])->readVoltage;
+                                                  inputSum += static_cast<DigitalNVM*>(arrayIH->cell[arrayIH->refColumnNumber][k])->conductance*static_cast<DigitalNVM*>(arrayIH->cell[arrayIH->refColumnNumber][k])->readVoltage;
+					        }
+					     }
 
-                                        int outputDigits = (int) (Isum /(Imax-Imin)); // the output at the ADC of this column // basically, this is the number of "1" in the partial sum of this column                                                                                                               
-                                        int outputDigitsRef = (int) (inputSum/(Imax-Imin));
-                                        outputDigits = outputDigits-outputDigitsRef;
+                                         int outputDigits = (int) (Isum /(Imax-Imin)); // the output at the ADC of this column // basically, this is the number of "1" in the partial sum of this column                                                                                                               
+                                         int outputDigitsRef = (int) (inputSum/(Imax-Imin));
+                                         outputDigits = outputDigits-outputDigitsRef;
                                         
-                                        Dref = (int)(inputSum/Imin);
-                                        Isum=0;
-                                        inputSum=0;
-                                        Dsum += outputDigits*(int) pow(2,w);  // get the weight represented by the column
-                                        DsumMax += param->nInput*(int) pow(2,w); // the maximum weight that can be represented by this column
-                                    }
-                                    sumArrayReadEnergy += static_cast<DigitalNVM*>(arrayHO->cell[0][0])->readEnergy * arrayHO->numCellPerSynapse * arrayHO->arrayRowSize;
-                                    outN1[j] += (double)(Dsum - Dref*(pow(2,param->numWeightBit-1)-1)) / DsumMax * pSumMaxAlgorithm;
+                                         Dref = (int)(inputSum/Imin);
+                                         Isum=0;
+                                         inputSum=0;
+                                         Dsum += outputDigits*(int) pow(2,w);  // get the weight represented by the column
+                                         DsumMax += param->nInput*(int) pow(2,w); // the maximum weight that can be represented by this column
+                                      }
+					       
+                                        sumArrayReadEnergy += static_cast<DigitalNVM*>(arrayHO->cell[0][0])->readEnergy * arrayHO->numCellPerSynapse * arrayHO->arrayRowSize;
+                                        outN1[j] += (double)(Dsum - Dref*(pow(2,param->numWeightBit-1)-1)) / DsumMax * pSumMaxAlgorithm;
                             }
+					     
                             else
                             {	 // Digital NVM or SRAM row-by-row readout				
 							    int Dsum = 0;
@@ -1068,11 +1076,14 @@ double s2[param->nOutput];  // Output delta from hidden layer to the output laye
 			/// conductance saturation management: Full-Reset (end) /// 
 			
 			/// new conductance saturation management ///
-			if(param -> RefreshAlgorithm = "Refresh"){
+			
+			/* if(param -> RefreshAlgorithm = "Refresh"){
 				
 		
 				
-			}
+			} */
+			
+		       /// new conductance saturation management (end) ///
 			
 			
 		}
