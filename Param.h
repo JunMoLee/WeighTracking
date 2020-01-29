@@ -86,6 +86,7 @@ public:
 double param_gp;
 double param_gn;
 	int RefreshRate;
+	int newUpdateRate;
 };
 
 #endif
