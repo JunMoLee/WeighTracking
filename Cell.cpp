@@ -369,6 +369,13 @@ RealDevice::RealDevice(int x, int y, double p, double n) {
 			puts("[Error] Conductance variation check not passed. The variation may be too large.");
 			exit(-1);
 		}
+	/*(later) Conductance range variation of Gp Gn*/
+		
+		
+		
+		
+		
+		
 		// Use the code below instead for re-choosing the variation if the check is not passed
 		//do {
 		//  maxConductance = avgMaxConductance + (*gaussian_dist_maxConductance)(localGen);
@@ -525,11 +532,11 @@ void RealDevice::newWrite(double deltaWeightNormalized, double weight, double mi
 			numPulse = maxNumLevelnLTD;
 		}
 		if (nonlinearWrite) {
-		        xPulse = InvNonlinearWeight(nminConductance+nmaxConductnace-conductanceGn, maxNumLevelnLTD, paramAGn, paramBGn, nminConductance);
-			conductanceNewGn = nminConductance+nmaxConductance-NonlinearWeight(xPulse+numPulse, maxNumLevelnLTD, paramAGn, paramBGn, nminConductance);
+		        xPulse = InvNonlinearWeight(conductanceGn, maxNumLevelnLTD, paramAGn, paramBGn, nminConductance);
+			conductanceNewGn = NonlinearWeight(xPulse-numPulse, maxNumLevelnLTD, paramAGn, paramBGn, nminConductance);
 		} else {
-			xPulse = (nminConductance+nmaxConductnace-conductanceGn- nminConductance) / (nmaxConductance - nminConductance) * maxNumLevelnLTD;
-			conductanceNewGn = nminConductance+nmaxConductance-(xPulse+numPulse) / maxNumLevelnLTD * (nmaxConductance - nminConductance) + nminConductance;
+			xPulse = (conductanceGn- nminConductance) / (nmaxConductance - nminConductance) * maxNumLevelnLTD;
+			conductanceNewGn = (xPulse-numPulse) / maxNumLevelnLTD * (nmaxConductance - nminConductance) + nminConductance;
 		}
 	
 	} else {	// LTD weight update
@@ -543,11 +550,11 @@ void RealDevice::newWrite(double deltaWeightNormalized, double weight, double mi
 			numPulse = maxNumLevelpLTD;
 		}
 		if (nonlinearWrite) {
-		        xPulse = InvNonlinearWeight(pminConductance+pmaxConductnace-conductanceGp, maxNumLevelpLTD, paramAGp, paramBGp, pminConductance);
-			conductanceNewGp = pminConductance+pmaxConductance-NonlinearWeight(xPulse+numPulse, maxNumLevelpLTP, paramAGp, paramBGp, pminConductance);
+		        xPulse = InvNonlinearWeight(conductanceGp, maxNumLevelpLTD, paramAGp, paramBGp, pminConductance);
+			conductanceNewGp = NonlinearWeight(xPulse-numPulse, maxNumLevelpLTP, paramAGp, paramBGp, pminConductance);
 		} else {
-			xPulse = (pminConductance+pmaxConductnace-conductanceGp-pminConductance) / (pmaxConductance - pminConductance) * maxNumLevelpLTD;
-			conductanceNewGp = pminConductance+pmaxConductance-(xPulse+numPulse) / maxNumLevelpLTD * (pmaxConductance - pminConductance) + pminConductance;
+			xPulse = (conductanceGp-pminConductance) / (pmaxConductance - pminConductance) * maxNumLevelpLTD;
+			conductanceNewGp = (xPulse - numPulse) / maxNumLevelpLTD * (pmaxConductance - pminConductance) + pminConductance;
 		}
 		
 		
