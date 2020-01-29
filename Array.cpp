@@ -195,7 +195,7 @@ void Array::WriteCell(int x, int y, double deltaWeight, double weight, double ma
 			double minConductance = static_cast<eNVM*>(cell[x][y])->minConductance;
 			double conductanceGp = static_cast<eNVM*>(cell[x][y])->conductanceGp;
 			double conductanceGn = static_cast<eNVM*>(cell[x][y])->conductanceGn;
-			double conductanceRef = static_cast<eNVM*>(cell[x][y])->conductanceRef;
+			
             // ? should add "+minConductance"?
 			//deltaWeight = 2 * deltaWeight;
 			if (deltaWeight > 0) {
@@ -225,7 +225,7 @@ void Array::WriteCell(int x, int y, double deltaWeight, double weight, double ma
 			}
 		
 		
-			conductance = conductanceGp - conductanceGn + conductanceRef;
+			conductance = conductanceGp - conductanceGn;
 			static_cast<eNVM*>(cell[x][y])->conductanceGp = conductanceGp;
 			static_cast<eNVM*>(cell[x][y])->conductanceGn = conductanceGn;
 			static_cast<eNVM*>(cell[x][y])->conductance = conductance;
