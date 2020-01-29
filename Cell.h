@@ -191,6 +191,7 @@ public:
 	RealDevice(int x, int y, double p, double  n);
 	double Read(double voltage);	// Return read current (A)
 	void Write(double deltaWeightNormalized, double weight, double minWeight, double maxWeight);
+	void newWrite(double deltaWeightNormalized, double weight, double minWeight, double maxWeight);
 	void Erase();
 };
 
@@ -201,8 +202,10 @@ public:
 	double xPulse;		// Conductance state in terms of the pulse number (doesn't need to be integer)
 	std::vector<double> dataConductanceLTP;	// LTP conductance data at different pulse number
 	std::vector<double> dataConductanceLTD;	// LTD conductance data at different pulse number
-double NL_LTP_Gp;
-double NL_LTP_Gn;
+        double NL_LTP_Gp;
+        double NL_LTP_Gn;
+	double NL_LTN_Gp;
+	double NL_LTN_Gn;
 	MeasuredDevice(int x, int y, double  p, double  n);
 	double Read(double voltage);	// Return read current (A)
 	void Write(double deltaWeightNormalized, double weight, double minWeight, double maxWeight);
