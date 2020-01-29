@@ -1032,6 +1032,10 @@ double s2[param->nOutput];  // Output delta from hidden layer to the output laye
 					}
 				}
 			}
+			
+			/// conductance saturation management: Full-Reset /// 
+			if(param -> RefreshAlgorithm = "Refresh"){
+				
 			if (batchSize % param->RefreshRate == 0) { //ERASE
 				for (int j = 0; j < param->nHide; j++) {
 					for (int k = 0; k < param->nInput; k++) {
@@ -1056,8 +1060,21 @@ double s2[param->nOutput];  // Output delta from hidden layer to the output laye
 						arrayHO->WriteCell(j, k, weight2[j][k], weight2[j][k], param->maxWeight, param->minWeight,false);
 					}
 				}
+				
 
 			}
+				
+			}
+			/// conductance saturation management: Full-Reset (end) /// 
+			
+			/// new conductance saturation management ///
+			if(param -> RefreshAlgorithm = "Refresh"){
+				
+		
+				
+			}
+			
+			
 		}
     }
 }
