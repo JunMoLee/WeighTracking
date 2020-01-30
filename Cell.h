@@ -117,6 +117,8 @@ public:
 	int maxNumLevelpLTD;	// Maximum number of conductance states during LTD or weight decrease
 	int maxNumLevelnLTP;
 	int maxNumLevelnLTD;
+	int maxNumLevelLTP;
+	int maxNumLevelLTD;
 	int numPulse;   // Number of write pulses used in the most recent write operation (Positive number: LTP, Negative number: LTD) (dynamic variable)
 	double writeLatencyLTP;	// Write latency of a cell during LTP or weight increase (different cells use different # write pulses, thus latency values are different). writeLatency will be calculated for each cell first, and then replaced by the maximum one in the batch write.
 	double writeLatencyLTD;	// Write latency of a cell during LTD or weight decrease (different cells use different # write pulses, thus latency values are different). writeLatency will be calculated for each cell first, and then replaced by the maximum one in the batch write.

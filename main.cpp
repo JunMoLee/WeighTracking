@@ -126,24 +126,33 @@ int main() {
 
 	srand(0);	// Pseudorandom number seed
 
-	double NL_LTP_Gp = static_cast<RealDevice*>(arrayIH->cell[0][0])->NL_LTP_Gp;
-	double NL_LTP_Gn = static_cast<RealDevice*>(arrayIH->cell[0][0])->NL_LTP_Gn;
-	int CS = static_cast<RealDevice*>(arrayIH->cell[0][0])->maxNumLevelLTP;
-	double LA = param->alpha1;
-	printf("opt: %s NL_Gp:%.1f NL_Gn:%.1f CS: %d LA: %.2f\n", param->optimization_type, NL_LTP_Gp, NL_LTP_Gn, CS, LA);
-bool write_or_not=1;
-fstream read;
-read.open("c_200127.csv",fstream::app);                                                         
-	
-	for (int i=1; i<=25; i++) {
-        //cout << "Training Epoch : " << i << endl;
-		Train(param->numTrainImagesPerEpoch, param->interNumEpochs,param->optimization_type);
-		if (!param->useHardwareInTraining && param->useHardwareInTestingFF) { WeightToConductance(); }
-		Validate();
-if(write_or_not){
+		double NL_LTP_Gp = static_cast<RealDevice*>(arrayIH->cell[0][0])->NL_LTP_Gp;
+	        double NL_LTD_Gp = static_cast<RealDevice*>(arrayIH->cell[0][0])->NL_LTD_Gp;
+		double NL_LTP_Gn = static_cast<RealDevice*>(arrayIH->cell[0][0])->NL_LTP_Gn;
+	        double NL_LTD_Gn = static_cast<RealDevice*>(arrayIH->cell[0][0])->NL_LTD_Gn;
+		int kp = static_cast<RealDevice*>(arrayIH->cell[0][0])->maxNumLevelpLTP;
+		int kd = static_cast<RealDevice*>(arrayIH->cell[0][0])->maxNumLevelpLTD;
+								                                int knp = static_cast<RealDevice*>(arrayIH->cell[0][0])->maxNumLevelnLTP;
+										                int knd = static_cast<RealDevice*>(arrayIH->cell[0][0])->maxNumLevelnLTD;
+											        double pof = static_cast<RealDevice*>(arrayIH->cell[0][0])->pmaxConductance/static_cast<RealDevice*>(arrayIH->cell[0][0])->pminConductance;
+											        double nof = static_cast<RealDevice*>(arrayIH->cell[0][0])->nmaxConductance/static_cast<RealDevice*>(arrayIH->cell[0][0])->nminConductance;
 
-		read <<param->optimization_type<<", "<<NL_LTP_Gp<<", "<<NL_LTP_Gn<<", "<<CS<<", "<<LA<<", "<<i*param->interNumEpochs << ", " << (double)correct/param->numMnistTestImages*100 << endl;
-		}
+														               
+											        double LA = param->alpha1;
+												printf("opt: %s NL_LTP_Gp:%.1f NL_LTD_Gp:%.1f NL_LTP_Gn:%.1f NL_LTD_Gn:%.1f CSpP: %d CSpD: %d CSnP: %d CSnD: %d OnOffGp: %.1f OnOffGn: %.1f LA: %.2f\n", param->optimization_type, NL_LTP_Gp, NL_LTD_Gp, NL_LTP_Gn, NL_LTD_Gn, kp, kd, knp, knd, pof, nof, LA);
+												bool write_or_not=1;
+												fstream read;
+												read.open("c_200127.csv",fstream::app);                                                         
+																	
+												for (int i=1; i<=25; i++) {
+												//cout << "Training Epoch : " << i << endl;
+												//		Train(param->numTrainImagesPerEpoch, param->interNumEpochs,param->optimization_type);
+												//				if (!param->useHardwareInTraining && param->useHardwareInTestingFF) { WeightToConductance(); }
+											       //						Validate();
+																			//						if(write_or_not){
+																			//
+																			//	read <<param->optimization_type<<", "<<NL_LTP_Gp<<", "<<NL_LTD_Gp<<", "<<NL_LTP_Gn<<", "<<NL_LTD_Gn<<", "<<kp<<", "<<kd<<", "<<knp<<", "<<knd<<", "<<pof<<", "<<nof<<", "<<LA<<", "<<i*param->interNumEpochs << ", " << (double)correct/param->numMnistTestImages*100 << endl;
+																			//										}
 		printf("%.2f\n", (double)correct/param->numMnistTestImages*100);
 		/*printf("\tRead latency=%.4e s\n", subArrayIH->readLatency + subArrayHO->readLatency);
 		printf("\tWrite latency=%.4e s\n", subArrayIH->writeLatency + subArrayHO->writeLatency);

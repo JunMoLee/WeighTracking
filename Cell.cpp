@@ -262,21 +262,22 @@ void IdealDevice::Write(double deltaWeightNormalized, double weight, double minW
 /* Real Device */
 RealDevice::RealDevice(int x, int y, double p, double n) {
 	this->x = x; this->y = y;	// Cell location: x (column) and y (row) start from index 0
-	const double t;
-	t = 10;
+	const double 
+	       tp=12.5;
 	maxConductance=0;
 	minConductance=0;
 	pminConductance = 3.0769e-9;
-	pmaxConductance = 3.0769e-9 * t;		// Maximum cell conductance (S)
-	
-	nminConductance = 3;
-	nmaxConductance = 3 * 100;
+	pmaxConductance = 3.0769e-9 * tp;		// Maximum cell conductance (S)
+	const double
+		tn=12.5;
+	nminConductance = 3.0769e-9; 
+	nmaxConductance = 3.0769e-9 * tn;
 		
 	// Minimum cell conductance (S)
 	//maxConductance = 1/4.71e6;
 	//minConductance = maxConductance / 19.6;
-	avgpMaxConductance = pmaxConductance-nminConductance; // Average maximum cell conductance (S)
-	avgpMinConductance = pminConductance-nmaxConductnace; // Average minimum cell conductance (S)
+	avgMaxConductance = pmaxConductance-nminConductance; // Average maximum cell conductance (S)
+	avgMinConductance = pminConductance-nmaxConductance; // Average minimum cell conductance (S)
 	conductanceGp = pminConductance;
 	conductanceGn = nminConductance;
 	conductance = conductanceGp-conductanceGn;	// Current conductance (S) (dynamic variable)
@@ -289,12 +290,20 @@ RealDevice::RealDevice(int x, int y, double p, double n) {
 	writePulseWidthLTD = 300e-6;	// Write pulse width (s) for LTD or weight decrease
 	writeEnergy = 0;	// Dynamic variable for calculation of write energy (J)
 
-	const double k;
-	k = 16;
-	maxNumLevelpLTP = k;	// Maximum number of conductance states during LTP or weight increase
-	maxNumLevelpLTD = k;	// Maximum number of conductance states during LTD or weight decrease
-	maxNumLevelnLTP = k;
-	maxNumLevelnLTD = k;
+	const double
+	       	kp=97;
+	const double
+		kd=97;
+	maxNumLevelpLTP = kp;	// Maximum number of conductance states during LTP or weight increase
+	maxNumLevelpLTD = kd;	// Maximum number of conductance states during LTD or weight decrease
+	const double
+		knp=97;
+	const double
+	        knd=97;
+	maxNumLevelnLTP = knp;
+	maxNumLevelnLTD = knd;
+        maxNumLevelLTP= (maxNumLevelpLTP >  maxNumLevelnLTP)? maxNumLevelpLTP : maxNumLevelnLTP;
+	maxNumLevelLTD= (maxNumLevelpLTD >  maxNumLevelnLTD)? maxNumLevelpLTD : maxNumLevelnLTD;
 	numPulse = 0;	// Number of write pulses used in the most recent write operation (dynamic variable)
 	cmosAccess = true;	// True: Pseudo-crossbar (1T1R), false: cross-point
     FeFET = false;		// True: FeFET structure (Pseudo-crossbar only, should be cmosAccess=1)
@@ -332,11 +341,19 @@ RealDevice::RealDevice(int x, int y, double p, double n) {
 	NL_LTP = 2.4;	// LTP nonlinearity
 	NL_LTD = -4.88;	// LTD nonlinearity
 
-
-	NL_LTP_Gp=p;
-	NL_LTD_Gp=0;
-	NL_LTP_Gn=n;
-	NL_LTD_Gn=0;
+        (void)p; (void)n;
+	const double
+		pp=2.4;
+		const double
+		pd=-4.8;
+	NL_LTP_Gp=pp;
+	NL_LTD_Gp=pd;
+	const double
+		np=2.4;
+	const double
+		nd=-4.8;
+	NL_LTP_Gn=np;
+	NL_LTD_Gn=nd;
 
 	sigmaDtoD = 0;	// Sigma of device-to-device weight update vairation in gaussian distribution
 	gaussian_dist2 = new std::normal_distribution<double>(0, sigmaDtoD);	// Set up mean and stddev for device-to-device weight update vairation
@@ -436,7 +453,8 @@ void RealDevice::Write(double deltaWeightNormalized, double weight, double minWe
 		numPulse = deltaWeightNormalized * maxNumLevelnLTP;
 		if (numPulse > maxNumLevelnLTP) {
 			numPulse = maxNumLevelnLTP;
-		}
+		} 
+		if (nonlinearWrite){
 		        xPulse = InvNonlinearWeight(conductanceGn, maxNumLevelnLTP, paramAGn, paramBGn, nminConductance);
 			conductanceNewGn = NonlinearWeight(xPulse+numPulse, maxNumLevelnLTP, paramAGn, paramBGn, nminConductance);
 		} else {
@@ -646,7 +664,7 @@ void RealDevice::Erase()
 {
 	conductanceGp = minConductance;
 	conductanceGn = minConductance;
-	conductance = conductanceGp - conductanceGn + conductanceRef;
+	conductance = conductanceGp - conductanceGn;
 }
 
 /* Measured device */

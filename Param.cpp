@@ -60,8 +60,8 @@ Param::Param() {
     /*Optimization method 
     Available option include: "SGD", "Momentum", "Adagrad", "RMSprop" and "Adam"*/
     optimization_type = "SGD";
-        ReverseUpdate = 1;
-	FullRefresh=0;
+        ReverseUpdate = 0;
+	FullRefresh=1;
 
 	/* Hardware parameters */
 	useHardwareInTrainingFF = true;   // Use hardware in the feed forward part of training or not (true: realistic hardware, false: ideal software)
@@ -87,8 +87,8 @@ Param::Param() {
 
 	RefreshRate = 100;
 	newUpdateRate = 100; // rate of new update algorithm implementation (per # of images)
-const double
-a=0;
+const int
+a=1;
 	
 switch(a){
 case 1:
