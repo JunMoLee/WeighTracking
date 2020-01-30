@@ -62,7 +62,11 @@ public:
 	double writeEnergy;	// Dynamic variable for calculation of write energy (J)
 	double conductance;	// Current conductance (S) (Dynamic variable) at on-chip Vr (different than the Vr in the reported measurement data)
 	double conductanceGp;
-	double conductanceGn;
+	double conductanceGn;        
+	double pminConductance=0;
+	double pmaxConductance=0;
+	double nminConductance=0;
+	double nmaxConductance=0;
 	double conductancePrev;	// Previous conductance (S) (Dynamic variable) at on-chip Vr (different than the Vr in the reported measurement data)
 	double maxConductance;	// Maximum cell conductance (S)
 	double minConductance;	// Minimum cell conductance (S)
@@ -185,10 +189,7 @@ public:
 	double paramBLTD;	// Parameter B for LTD nonlinearity
 	double sigmaDtoD;	// Sigma of device-to-device variation on weight update nonliearity baseline
 	double sigmaCtoC;	// Sigma of cycle-to-cycle variation on weight update
-        double pminConductance;
-	double pmaxConductance;
-	double nminConductance;
-	double nmaxConductance;
+
 	/*PCM*/
 	double NL_LTP_Gp;
 	double NL_LTD_Gp;
