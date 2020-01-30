@@ -145,14 +145,10 @@ int main() {
 		read.open("c_200127.csv",fstream::app);                                                         
 																	
 		for (int i=1; i<=25; i++) {
-		//cout << "Training Epoch : " << i << endl;
-		//		Train(param->numTrainImagesPerEpoch, param->interNumEpochs,param->optimization_type);
-		//				if (!param->useHardwareInTraining && param->useHardwareInTestingFF) { WeightToConductance(); }
-		//						Validate();
-																			//						if(write_or_not){
-																			//
-																			//	read <<param->optimization_type<<", "<<NL_LTP_Gp<<", "<<NL_LTD_Gp<<", "<<NL_LTP_Gn<<", "<<NL_LTD_Gn<<", "<<kp<<", "<<kd<<", "<<knp<<", "<<knd<<", "<<pof<<", "<<nof<<", "<<LA<<", "<<i*param->interNumEpochs << ", " << (double)correct/param->numMnistTestImages*100 << endl;
-																			//										}
+		cout << "Training Epoch : " << i << endl; 
+		Train(param->numTrainImagesPerEpoch, param->interNumEpochs,param->optimization_type);
+		if (!param->useHardwareInTraining && param->useHardwareInTestingFF) { WeightToConductance(); }
+		Validate();														//										}
 		printf("%.2f\n", (double)correct/param->numMnistTestImages*100);
 		/*printf("\tRead latency=%.4e s\n", subArrayIH->readLatency + subArrayHO->readLatency);
 		printf("\tWrite latency=%.4e s\n", subArrayIH->writeLatency + subArrayHO->writeLatency);
