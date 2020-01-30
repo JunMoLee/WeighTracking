@@ -662,8 +662,8 @@ void RealDevice::newWrite(double deltaWeightNormalized, double weight, double mi
 
 void RealDevice::Erase()
 {
-	conductanceGp = minConductance;
-	conductanceGn = minConductance;
+	conductanceGp = pminConductance;
+	conductanceGn = nminConductance;
 	conductance = conductanceGp - conductanceGn;
 }
 
