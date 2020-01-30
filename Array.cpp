@@ -202,6 +202,7 @@ void Array::WriteCell(int x, int y, double deltaWeight, double weight, double ma
 			double totalcondrange = pmaxConductance + nmaxConductance - pminConductance - nminConductance;
 	                double pcondrange = pmaxConductance - pminConductance;
 	                double ncondrange = nmaxConductance - nminConductance;
+		        double conductance = 0;
 		        
 		        
 		      
