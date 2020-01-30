@@ -60,8 +60,8 @@ Param::Param() {
     /*Optimization method 
     Available option include: "SGD", "Momentum", "Adagrad", "RMSprop" and "Adam"*/
     optimization_type = "SGD";
-        ReverseUpdate = 0;
-	FullRefresh=1;
+        ReverseUpdate = 1;
+	FullRefresh= 0;
 
 	/* Hardware parameters */
 	useHardwareInTrainingFF = true;   // Use hardware in the feed forward part of training or not (true: realistic hardware, false: ideal software)
