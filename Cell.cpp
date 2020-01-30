@@ -359,10 +359,10 @@ RealDevice::RealDevice(int x, int y, double p, double n) {
 	gaussian_dist2 = new std::normal_distribution<double>(0, sigmaDtoD);	// Set up mean and stddev for device-to-device weight update vairation
 	paramALTP = getParamA(NL_LTP + (*gaussian_dist2)(localGen)) * maxNumLevelLTP;	// Parameter A for LTP nonlinearity
 	paramALTD = getParamA(NL_LTD + (*gaussian_dist2)(localGen)) * maxNumLevelLTD;	// Parameter A for LTD nonlinearity
-	paramAGp= getParamA(NL_LTP_Gp + (*gaussian_dist2)(localGen)) * maxNumLevelLTP;
-	paramAGpd= getParamA(NL_LTD_Gp + (*gaussian_dist2)(localGen)) * maxNumLevelLTP;
-	paramAGn= getParamA(NL_LTP_Gn + (*gaussian_dist2)(localGen)) * maxNumLevelLTP;
-	paramAGnd= getParamA(NL_LTD_Gn + (*gaussian_dist2)(localGen)) * maxNumLevelLTP;
+	paramAGp= getParamA(NL_LTP_Gp + (*gaussian_dist2)(localGen)) * maxNumLevelpLTP;
+	paramAGpd= getParamA(NL_LTD_Gp + (*gaussian_dist2)(localGen)) * maxNumLevelpLTP;
+	paramAGn= getParamA(NL_LTP_Gn + (*gaussian_dist2)(localGen)) * maxNumLevelnLTP;
+	paramAGnd= getParamA(NL_LTD_Gn + (*gaussian_dist2)(localGen)) * maxNumLevelnLTP;
 	paramBGp= (pmaxConductance - pminConductance) / (1 - exp(-maxNumLevelpLTP/paramAGp));
 	paramBGpd= (pmaxConductance - pminConductance) / (1 - exp(-maxNumLevelpLTD/paramAGpd));
 	paramBGn= (nmaxConductance - nminConductance) / (1 - exp(-maxNumLevelnLTP/paramAGn));;
