@@ -190,37 +190,46 @@ void Array::WriteCell(int x, int y, double deltaWeight, double weight, double ma
         else 
         {	// Preparation stage (ideal write)
             //printf("initialize the conductance\n");
-			double conductance = 0;
-			double maxConductance = static_cast<eNVM*>(cell[x][y])->maxConductance;
-			double minConductance = static_cast<eNVM*>(cell[x][y])->minConductance;
+			
+		        double avgMaxConductance = static_cast<eNVM*>(cell[x][y])->avgMaxConductance;
+			double avgMinConductance = static_cast<eNVM*>(cell[x][y])->avgMinConductance;
+			double pmaxConductance = static_cast<eNVM*>(cell[x][y])->pmaxConductance;
+			double pminConductance = static_cast<eNVM*>(cell[x][y])->pminConductance;
+		        double nmaxConductance = static_cast<eNVM*>(cell[x][y])->nmaxConductance;
+			double nminConductance = static_cast<eNVM*>(cell[x][y])->nminConductance;
 			double conductanceGp = static_cast<eNVM*>(cell[x][y])->conductanceGp;
 			double conductanceGn = static_cast<eNVM*>(cell[x][y])->conductanceGn;
-			
+			double totalcondrange = pmaxConductance + nmaxConductance - pminConductance - nminConductance;
+	                double pcondrange = pmaxConductance - pminConductance;
+	                double ncondrange = nmaxConductance - nminConductance;
+		        
+		        
+		      
             // ? should add "+minConductance"?
 			//deltaWeight = 2 * deltaWeight;
 			if (deltaWeight > 0) {
-			
+			conductanceGp += deltaWeight * (pmaxConductance - pminConductance);
 				
-				if (conductanceGp > maxConductance)
+				if (conductanceGp > pmaxConductance)
 				{
-					conductanceGp = maxConductance;
+					conductanceGp = pmaxConductance;
 				}
-				else if (conductanceGp < minConductance)
+				else if (conductanceGp < pminConductance)
 				{
-					conductanceGp = minConductance;
+					conductanceGp = pminConductance;
 				}
 			}
 			else {
 				
-				conductanceGn -= deltaWeight * (maxConductance - minConductance);
+			conductanceGn -= deltaWeight * (nmaxConductance - nminConductance);
 				
-				if (conductanceGn > maxConductance)
+				if (conductanceGn > nmaxConductance)
 				{
-					conductanceGn = maxConductance;
+					conductanceGn =nmaxConductance;
 				}
-				else if (conductanceGn < minConductance)
+				else if (conductanceGn < nminConductance)
 				{
-					conductanceGn = minConductance;
+					conductanceGn = nminConductance;
 				}
 			}
 		
