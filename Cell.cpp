@@ -343,15 +343,15 @@ RealDevice::RealDevice(int x, int y, double p, double n) {
 
         (void)p; (void)n;
 	const double
-		pp=2.4;
+		pp=1;
 		const double
-		pd=-4.8;
+		pd=-1;
 	NL_LTP_Gp=pp;
 	NL_LTD_Gp=pd;
 	const double
-		np=2.4;
+		np=1;
 	const double
-		nd=-4.8;
+		nd=-1;
 	NL_LTP_Gn=np;
 	NL_LTD_Gn=nd;
 
