@@ -291,21 +291,21 @@ RealDevice::RealDevice(int x, int y, double p, double n) {
 	writePulseWidthLTD = 300e-6;	// Write pulse width (s) for LTD or weight decrease
 	writeEnergy = 0;	// Dynamic variable for calculation of write energy (J)
        const double
-	kp=16;
+	kcp=16;
 	const double
-	kn=16;
+	kcn=16;
 	const double
 	       	kp=97;
 	const double
 		kd=97;
-	maxNumLevelpLTP = kp;	// Maximum number of conductance states during LTP or weight increase
-	maxNumLevelpLTD = kd;	// Maximum number of conductance states during LTD or weight decrease
+	maxNumLevelpLTP = kcp;	// Maximum number of conductance states during LTP or weight increase
+	maxNumLevelpLTD = kcd;	// Maximum number of conductance states during LTD or weight decrease
 	const double
 		knp=97;
 	const double
 	        knd=97;
-	maxNumLevelnLTP = knp;
-	maxNumLevelnLTD = knd;
+	maxNumLevelnLTP = kcp;
+	maxNumLevelnLTD = kcd;
         maxNumLevelLTP= (maxNumLevelpLTP >  maxNumLevelnLTP)? maxNumLevelpLTP : maxNumLevelnLTP;
 	maxNumLevelLTD= (maxNumLevelpLTD >  maxNumLevelnLTD)? maxNumLevelpLTD : maxNumLevelnLTD;
 	numPulse = 0;	// Number of write pulses used in the most recent write operation (dynamic variable)
