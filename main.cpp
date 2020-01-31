@@ -154,7 +154,7 @@ int main() {
 		Validate();
 		if(write_or_not){
 
-		read <<param->optimization_type<<", "<<NL_LTP_Gp<<", "<<NL_LTD_Gp<<", "<NL_LTP_Gn<<", "<<<NL_LTD_Gn<<", "<<kp<<", "<<kn<<", "<<knp<<", "<<knd<<", "<<LA<<", "<<pof<< ", " <<nof<< ", " <<newUpdateRate<<", "<<i*param->interNumEpochs<< ", "<<(double)correct/param->numMnistTestImages*100 << endl;
+		read <<param->optimization_type<<", "<<NL_LTP_Gp<<", "<<NL_LTD_Gp<<", "<<NL_LTP_Gn<<", "<<NL_LTD_Gn<<", "<<kp<<", "<<kn<<", "<<knp<<", "<<knd<<", "<<LA<<", "<<pof<< ", " <<nof<< ", " <<newUpdateRate<<", "<<i*param->interNumEpochs<< ", "<<(double)correct/param->numMnistTestImages*100 << endl;
 		
 		}
 		printf("%.2f\n", (double)correct/param->numMnistTestImages*100);
