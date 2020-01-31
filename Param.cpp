@@ -90,7 +90,7 @@ Param::Param() {
 	nur=3;
 	newUpdateRate = nur; // rate of new update algorithm implementation (per # of images)
 const int
-a=1;
+a=0;
 	
 switch(a){
 case 0:
