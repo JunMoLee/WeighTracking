@@ -264,7 +264,7 @@ RealDevice::RealDevice(int x, int y, double p, double n) {
 	this->x = x; this->y = y;	// Cell location: x (column) and y (row) start from index 0
 	const double 
 	       tp=12.5;
-	maxConductance= nmaxConductance; // for nmaxConductance
+	maxConductance= nmaxConductance; // in case of unwanted situations
 	minConductance=0;
 	pminConductance = 3.0769e-9;
 	pmaxConductance = 3.0769e-9 * tp;		// Maximum cell conductance (S)
@@ -277,8 +277,8 @@ RealDevice::RealDevice(int x, int y, double p, double n) {
 	// Minimum cell conductance (S)
 	//maxConductance = 1/4.71e6;
 	//minConductance = maxConductance / 19.6;
-	avgMaxConductance = pmaxConductance-nminConductance; // Average maximum cell conductance (S)
-	avgMinConductance = pminConductance-nmaxConductance; // Average minimum cell conductance (S)
+	avgMaxConductance = pmaxConductance-nminConductance + refConductance ; // Average maximum cell conductance (S)
+	avgMinConductance = pminConductance-nmaxConductance + refConductance; // Average minimum cell conductance (S)
 	conductanceGp = pminConductance;
 	conductanceGn = nminConductance;
 	conductance = conductanceGp - conductanceGn + refConductance;	// Current conductance (S) (dynamic variable)
