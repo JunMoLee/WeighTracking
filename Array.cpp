@@ -199,6 +199,7 @@ void Array::WriteCell(int x, int y, double deltaWeight, double weight, double ma
 			double nminConductance = static_cast<eNVM*>(cell[x][y])->nminConductance;
 			double conductanceGp = static_cast<eNVM*>(cell[x][y])->conductanceGp;
 			double conductanceGn = static_cast<eNVM*>(cell[x][y])->conductanceGn;
+		        double refConductance= static_cast<eNVM*>(cell[x][y])->refConductance;
 			double totalcondrange = pmaxConductance + nmaxConductance - pminConductance - nminConductance;
 	                double pcondrange = pmaxConductance - pminConductance;
 	                double ncondrange = nmaxConductance - nminConductance;
@@ -235,7 +236,7 @@ void Array::WriteCell(int x, int y, double deltaWeight, double weight, double ma
 			}
 		
 		
-			conductance = conductanceGp - conductanceGn;
+			conductance = conductanceGp - conductanceGn + refConductance;
 			static_cast<eNVM*>(cell[x][y])->conductanceGp = conductanceGp;
 			static_cast<eNVM*>(cell[x][y])->conductanceGn = conductanceGn;
 			static_cast<eNVM*>(cell[x][y])->conductance = conductance;
