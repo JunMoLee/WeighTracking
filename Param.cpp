@@ -85,10 +85,10 @@ Param::Param() {
 	processNode = 32;	// Technology node (nm)
 	clkFreq = 2e9;		// Clock frequency (Hz)
 
-	RefreshRate = nur;
+	RefreshRate = 100;
 	const int 
 	nur=3;
-	newUpdateRate = 500; // rate of new update algorithm implementation (per # of images)
+	newUpdateRate = nur; // rate of new update algorithm implementation (per # of images)
 const int
 a=1;
 	
