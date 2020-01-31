@@ -293,7 +293,7 @@ RealDevice::RealDevice(int x, int y, double p, double n) {
        const double
 	kcp=16;
 	const double
-	kcn=16;
+	kcd=16;
 	const double
 	       	kp=97;
 	const double
