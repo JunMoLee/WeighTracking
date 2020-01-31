@@ -136,7 +136,7 @@ int main() {
 		int knd = static_cast<RealDevice*>(arrayIH->cell[0][0])->maxNumLevelnLTD;
 		double pof = static_cast<RealDevice*>(arrayIH->cell[0][0])->pmaxConductance/static_cast<RealDevice*>(arrayIH->cell[0][0])->pminConductance;
 		double nof = static_cast<RealDevice*>(arrayIH->cell[0][0])->nmaxConductance/static_cast<RealDevice*>(arrayIH->cell[0][0])->nminConductance;
-	        double newUpdateRate = static_cast<RealDevice*>(arrayIH->cell[0][0])->newUpdateRate;
+	        double newUpdateRate = param->newUpdateRate;
 
 
 														               
