@@ -264,7 +264,7 @@ RealDevice::RealDevice(int x, int y, double p, double n) {
 	this->x = x; this->y = y;	// Cell location: x (column) and y (row) start from index 0
 	const double 
 	       tp=12.5;
-	maxConductance=0;
+	maxConductance= nmaxConductance; // for nmaxConductance
 	minConductance=0;
 	pminConductance = 3.0769e-9;
 	pmaxConductance = 3.0769e-9 * tp;		// Maximum cell conductance (S)
@@ -272,7 +272,8 @@ RealDevice::RealDevice(int x, int y, double p, double n) {
 		tn=12.5;
 	nminConductance = 3.0769e-9; 
 	nmaxConductance = 3.0769e-9 * tn;
-		
+	refConductance = 3.0769e-9 * tn;
+	
 	// Minimum cell conductance (S)
 	//maxConductance = 1/4.71e6;
 	//minConductance = maxConductance / 19.6;
@@ -280,7 +281,7 @@ RealDevice::RealDevice(int x, int y, double p, double n) {
 	avgMinConductance = pminConductance-nmaxConductance; // Average minimum cell conductance (S)
 	conductanceGp = pminConductance;
 	conductanceGn = nminConductance;
-	conductance = conductanceGp-conductanceGn;	// Current conductance (S) (dynamic variable)
+	conductance = conductanceGp - conductanceGn + refConductance;	// Current conductance (S) (dynamic variable)
 	conductancePrev = conductance;	// Previous conductance (S) (dynamic variable)
 	readVoltage = 0.5;	// On-chip read voltage (Vr) (V)
 	readPulseWidth = 5e-9;	// Read pulse width (s) (will be determined by ADC)
@@ -525,7 +526,7 @@ void RealDevice::Write(double deltaWeightNormalized, double weight, double minWe
 	conductancePrev = conductance;
 	conductanceGp = conductanceNewGp;
 	conductanceGn = conductanceNewGn;
-	conductanceNew = conductanceNewGp - conductanceNewGn;
+	conductanceNew = conductanceNewGp - conductanceNewGn + refConductance;
 	conductance = conductanceNew;
 }
 
@@ -640,7 +641,7 @@ void RealDevice::newWrite(double deltaWeightNormalized, double weight, double mi
 	conductancePrev = conductance;
 	conductanceGp = conductanceNewGp;
 	conductanceGn = conductanceNewGn;
-	conductanceNew = conductanceNewGp - conductanceNewGn;
+	conductanceNew = conductanceNewGp - conductanceNewGn + refConductance;
 	conductance = conductanceNew;
 }
 
@@ -664,7 +665,7 @@ void RealDevice::Erase()
 {
 	conductanceGp = pminConductance;
 	conductanceGn = nminConductance;
-	conductance = conductanceGp - conductanceGn;
+	conductance = conductanceGp - conductanceGn + refConductance;
 }
 
 /* Measured device */
