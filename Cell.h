@@ -67,6 +67,7 @@ public:
 	double pmaxConductance=0;
 	double nminConductance=0;
 	double nmaxConductance=0;
+	double refConductance=0;
 	double conductancePrev;	// Previous conductance (S) (Dynamic variable) at on-chip Vr (different than the Vr in the reported measurement data)
 	double maxConductance;	// Maximum cell conductance (S)
 	double minConductance;	// Minimum cell conductance (S)
