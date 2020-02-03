@@ -91,56 +91,56 @@ Param::Param() {
 	newUpdateRate = nur; // rate of new update algorithm implementation (per # of images)
 const int
 a=0;
+
 	
+if(true) {
 switch(a){
 case 0:
 param_gp=0;
-param_gn=-9;
+param_gn=0;
 break;
 case 1:
 param_gp=1;
-param_gn=-9;
+param_gn=2;
 break;
 case 2:
-param_gp=0;
-param_gn=-8;
+param_gp=1;
+param_gn=3;
 break;
 case 3:
 param_gp=1;
-param_gn=-8;
+param_gn=4;
 break;
 case 4:
-param_gp=0;
-param_gn=-7;
+param_gp=1;
+param_gn=5;
 break;
 case 5:
 param_gp=1;
-param_gn=-7;
+param_gn=6;
 break;
 case 6:
-param_gp=9;
-param_gn=0;
+param_gp=2;
+param_gn=1;
 break;
 case 7:
-param_gp=9;
-param_gn=-1;
+param_gp=3;
+param_gn=1;
 break;
 case 8:
-param_gp=8;
-param_gn=0;
+param_gp=4;
+param_gn=1;
 break;
 case 9:
-param_gp=8;
-param_gn=-1;
+param_gp=5;
+param_gn=1;
 break;
 case 10:
-param_gp=7;
-param_gn=0;
+param_gp=6;
+param_gn=1;
 break;
-case 11:
-param_gp=7;
-param_gn=-1;
-break;
+
+}
 }
 	
 }
