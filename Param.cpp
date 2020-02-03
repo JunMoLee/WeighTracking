@@ -95,43 +95,51 @@ a=0;
 switch(a){
 case 0:
 param_gp=0;
-param_gn=0;
+param_gn=-9;
 break;
 case 1:
 param_gp=1;
-param_gn=-1;
+param_gn=-9;
 break;
 case 2:
-param_gp=1;
-param_gn=-3;
+param_gp=0;
+param_gn=-8;
 break;
 case 3:
 param_gp=1;
-param_gn=-5;
+param_gn=-8;
 break;
 case 4:
-param_gp=3;
-param_gn=-1;
+param_gp=0;
+param_gn=-7;
 break;
 case 5:
-param_gp=3;
-param_gn=-3;
+param_gp=1;
+param_gn=-7;
 break;
 case 6:
-param_gp=3;
-param_gn=-5;
+param_gp=9;
+param_gn=0;
 break;
 case 7:
-param_gp=5;
+param_gp=9;
 param_gn=-1;
 break;
 case 8:
-param_gp=5;
-param_gn=-3;
+param_gp=8;
+param_gn=0;
 break;
 case 9:
-param_gp=5;
-param_gn=-5;
+param_gp=8;
+param_gn=-1;
+break;
+case 10:
+param_gp=7;
+param_gn=0;
+break;
+case 11:
+param_gp=7;
+param_gn=-1;
 break;
 }
 	
