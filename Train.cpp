@@ -37,6 +37,7 @@
 ********************************************************************************/
 
 #include <cstdio>
+#include <fstream>
 #include <iostream>
 #include <vector>
 #include <random>
@@ -1117,7 +1118,7 @@ double s2[param->nOutput];  // Output delta from hidden layer to the output laye
 	
 			/// weight tracking ///
 			
-			fstream read1;
+		fstream read1;
 		read1.open("weightIH.csv",fstream::app);                                                         
 																	
 		for (int i=0; i<param->nHide; i++) {
@@ -1125,7 +1126,7 @@ double s2[param->nOutput];  // Output delta from hidden layer to the output laye
 				
 				
 
-		weight <<((arrayIH->cell[i][j])->conductance - ( (arrayIH->cell[i][j]) -> avgMaxConductance )/2 - ( (arrayIH->cell[i][j]) -> avgMinConductance )/2) / ( (arrayIH->cell[i][j]) -> avgMaxConductance ) / 2 - ( (arrayIH->cell[i][j]) -> avgMinConductance ) / 2 ;
+		weight <<(static_cast<AnalogNVM*>(arrayIH->cell[i][j])->conductance - (static_cast<AnalogNVM*>(arrayIH->cell[i][j]) -> avgMaxConductance )/2 - ( static_cast<AnalogNVM*>(arrayIH->cell[i][j]) -> avgMinConductance )/2) / ( static_cast<AnalogNVM*>(arrayIH->cell[i][j]) -> avgMaxConductance ) / 2 - ( static_cast<AnalogNVM*>(arrayIH->cell[i][j]) -> avgMinConductance ) / 2 ;
 			
 			}
 		}
@@ -1140,7 +1141,7 @@ double s2[param->nOutput];  // Output delta from hidden layer to the output laye
 				
 				
 
-		weight <<((arrayHO->cell[i][j])->conductance - ( (arrayHO->cell[i][j]) -> avgMaxConductance )/2 - ( (arrayHO->cell[i][j]) -> avgMinConductance )/2) / ( (arrayHO->cell[i][j]) -> avgMaxConductance ) / 2 - ( (arrayHO->cell[i][j]) -> avgMinConductance ) / 2 ;
+		weight <<((static_cast<AnalogNVM*>arrayHO->cell[i][j])->conductance - ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMaxConductance )/2 - ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMinConductance )/2) / ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMaxConductance ) / 2 - ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMinConductance ) / 2 ;
 			
 			}
 		}	
