@@ -1089,6 +1089,11 @@ double s2[param->nOutput];  // Output delta from hidden layer to the output laye
 
 			}
 				
+				
+				
+				
+				
+				
 			}
 			/// conductance saturation management: Full-Reset (end) /// 
 			
@@ -1102,9 +1107,50 @@ double s2[param->nOutput];  // Output delta from hidden layer to the output laye
 			
 		       /// new conductance saturation management (end) ///
 			
+		
+			
 			
 		}
     }
+	
+	
+	
+			/// weight tracking ///
+			
+			fstream read1;
+		read1.open("weightIH.csv",fstream::app);                                                         
+																	
+		for (int i=0; i<param->nHide; i++) {
+			for (int j=0; j<param->nInput;j++){
+				
+				
+
+		weight <<((arrayIH->cell[i][j])->conductance - ( (arrayIH->cell[i][j]) -> avgMaxConductance )/2 - ( (arrayIH->cell[i][j]) -> avgMinConductance )/2) / ( (arrayIH->cell[i][j]) -> avgMaxConductance ) / 2 - ( (arrayIH->cell[i][j]) -> avgMinConductance ) / 2 ;
+			
+			}
+		}
+		
+				
+				
+		fstream read2;
+	        read2.open("weightHO.csv",fstream::app);     
+				
+			for (int i=0; i<param->nOutput; i++) {
+			for (int j=0; j<param->nHide;j++){
+				
+				
+
+		weight <<((arrayHO->cell[i][j])->conductance - ( (arrayHO->cell[i][j]) -> avgMaxConductance )/2 - ( (arrayHO->cell[i][j]) -> avgMinConductance )/2) / ( (arrayHO->cell[i][j]) -> avgMaxConductance ) / 2 - ( (arrayHO->cell[i][j]) -> avgMinConductance ) / 2 ;
+			
+			}
+		}	
+	
+	
+	
+	
+	
+	
+	
 }
 
 double SGD(double gradient, double learning_rate){
