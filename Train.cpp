@@ -1114,10 +1114,6 @@ double s2[param->nOutput];  // Output delta from hidden layer to the output laye
 			
 			
 		}
-    }
-	
-	
-	
 			/// weight tracking ///
 			
 		fstream read1;
@@ -1147,12 +1143,10 @@ double s2[param->nOutput];  // Output delta from hidden layer to the output laye
 			
 			}
 		}	
+		
+    }
 	
-	
-	
-	
-	
-	
+
 	
 }
 
