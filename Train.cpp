@@ -1117,14 +1117,13 @@ double s2[param->nOutput];  // Output delta from hidden layer to the output laye
 			/// weight tracking ///
 			
 		fstream read1;
-		read1.open("weightIH.csv",fstream::app);                                                         
-																	
+		read1.open("weightIH.csv",fstream::app);                                                         	
+                read1 << "epoch 1 IH: "<<t<<endl;														
 		for (int i=0; i<param->nHide; i++) {
 			for (int j=0; j<param->nInput;j++){
 				
-		read1 <<endl;		
-                read1 << "epoch 1 IH: "<<t<<endl;
-		read1 <<", "<<(static_cast<AnalogNVM*>(arrayIH->cell[i][j])->conductance - (static_cast<AnalogNVM*>(arrayIH->cell[i][j]) -> avgMaxConductance )/2 - ( static_cast<AnalogNVM*>(arrayIH->cell[i][j]) -> avgMinConductance )/2) / ( static_cast<AnalogNVM*>(arrayIH->cell[i][j]) -> avgMaxConductance ) / 2 - ( static_cast<AnalogNVM*>(arrayIH->cell[i][j]) -> avgMinConductance ) / 2 ;
+		read1<<endl;
+		read1 <<i<<", "<<j<<", "<<(static_cast<AnalogNVM*>(arrayIH->cell[i][j])->conductance - (static_cast<AnalogNVM*>(arrayIH->cell[i][j]) -> avgMaxConductance )/2 - ( static_cast<AnalogNVM*>(arrayIH->cell[i][j]) -> avgMinConductance )/2) / ( static_cast<AnalogNVM*>(arrayIH->cell[i][j]) -> avgMaxConductance ) / 2 - ( static_cast<AnalogNVM*>(arrayIH->cell[i][j]) -> avgMinConductance ) / 2 ;
 			
 			}
 		}
@@ -1132,14 +1131,14 @@ double s2[param->nOutput];  // Output delta from hidden layer to the output laye
 				
 				
 		fstream read2;
-	        read2.open("weightHO.csv",fstream::app);     
+	        read2.open("weightHO.csv",fstream::app);    
+		read2 << "epoch 1 HO: "<<t<<endl;
 				
-			for (int i=0; i<param->nOutput; i++) {
-			for (int j=0; j<param->nHide;j++){
+		for (int i=0; i<param->nOutput; i++) {
+		for (int j=0; j<param->nHide;j++){
 				
 		read2 << endl;		
-                read2 << "epoch 1 HO: "<<t<<endl;
-		read2 <<", "<<(static_cast<AnalogNVM*>(arrayHO->cell[i][j])->conductance - ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMaxConductance )/2 - ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMinConductance )/2) / ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMaxConductance ) / 2 - ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMinConductance ) / 2 ;
+		read2 <<i<<", "<<j<<", "<<(static_cast<AnalogNVM*>(arrayHO->cell[i][j])->conductance - ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMaxConductance )/2 - ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMinConductance )/2) / ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMaxConductance ) / 2 - ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMinConductance ) / 2 ;
 			
 			}
 		}	
