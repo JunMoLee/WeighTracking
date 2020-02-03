@@ -48,6 +48,8 @@
 #include "Mapping.h"
 #include "NeuroSim.h"
 
+using namespace std;
+
 extern Param *param;
 
 extern std::vector< std::vector<double> > Input;
@@ -1141,7 +1143,7 @@ double s2[param->nOutput];  // Output delta from hidden layer to the output laye
 				
 				
 
-		weight <<((static_cast<AnalogNVM*>arrayHO->cell[i][j])->conductance - ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMaxConductance )/2 - ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMinConductance )/2) / ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMaxConductance ) / 2 - ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMinConductance ) / 2 ;
+		weight <<(static_cast<AnalogNVM*>(arrayHO->cell[i][j])->conductance - ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMaxConductance )/2 - ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMinConductance )/2) / ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMaxConductance ) / 2 - ( static_cast<AnalogNVM*>(arrayHO->cell[i][j]) -> avgMinConductance ) / 2 ;
 			
 			}
 		}	
