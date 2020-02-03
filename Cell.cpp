@@ -290,8 +290,8 @@ RealDevice::RealDevice(int x, int y, double p, double n) {
 	writePulseWidthLTP = 300e-6;	// Write pulse width (s) for LTP or weight increase
 	writePulseWidthLTD = 300e-6;	// Write pulse width (s) for LTD or weight decrease
 	writeEnergy = 0;	// Dynamic variable for calculation of write energy (J)
-       const double
-	kc=16;
+        const double
+	kc=100;
 	const double
 	       	kp=97;
 	const double
