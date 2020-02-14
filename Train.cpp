@@ -117,9 +117,8 @@ double a2[param->nOutput];  // Net output of output layer [param->nOutput]
 
 double s1[param->nHide];    // Output delta from input layer to the hidden layer [param->nHide]
 double s2[param->nOutput];  // Output delta from hidden layer to the output layer [param->nOutput]
-	
+	int why=1;
 	for (int t = 0; t < epochs; t++) {
-		
 		// iteration witin batch //
 		for (int batchSize = 0; batchSize < numTrain; batchSize++) {
 
@@ -1142,6 +1141,7 @@ double s2[param->nOutput];  // Output delta from hidden layer to the output laye
 			
 			}
 		}	
+		why++;
 		
     }
 	
