@@ -97,21 +97,12 @@ a=0;
 if(true) {
 switch(a){
 case 0:
-param_gp=5;
-param_gn=1;
+param_gp=1;
+param_gn=5;
 break;
 case 1:
-param_gp=3;
+param_gp=8;
 param_gn=6;
-break;
-case 2:
-param_gp=6;
-param_gn=3;
-break;
-case 3:
-param_gp=5;
-param_gn=4;
-break;
 
 }
 }
