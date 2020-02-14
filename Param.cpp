@@ -62,6 +62,7 @@ Param::Param() {
     optimization_type = "SGD";
         ReverseUpdate = 0;
 	FullRefresh= 1;
+	EpochCount=1;
 
 	/* Hardware parameters */
 	useHardwareInTrainingFF = true;   // Use hardware in the feed forward part of training or not (true: realistic hardware, false: ideal software)
