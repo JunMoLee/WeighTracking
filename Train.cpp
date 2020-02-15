@@ -1116,7 +1116,7 @@ double s2[param->nOutput];  // Output delta from hidden layer to the output laye
 			/// weight tracking ///
 			
 	        fstream read1;
-		read1.open("weightIHnew3.csv",fstream::app);                                                         	
+		read1.open("weightIHnew4.csv",fstream::app);                                                         	
              													
 		for (int m=0; m<param->nHide; m++) {
 			for (int n=0; n<param->nInput;n++){
@@ -1130,7 +1130,7 @@ double s2[param->nOutput];  // Output delta from hidden layer to the output laye
 				
 				
 		fstream read2;
-	        read2.open("weightHOnew3.csv",fstream::app);    
+	        read2.open("weightHOnew4.csv",fstream::app);    
 		
 				
 		for (int m=0; m<param->nOutput; m++) {
