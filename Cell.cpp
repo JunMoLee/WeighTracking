@@ -291,7 +291,7 @@ RealDevice::RealDevice(int x, int y, double p, double n) {
 	writePulseWidthLTD = 300e-6;	// Write pulse width (s) for LTD or weight decrease
 	writeEnergy = 0;	// Dynamic variable for calculation of write energy (J)
         const double
-	kc=100;
+	kc=128;
 	const double
 	       	kp=97;
 	const double
@@ -353,12 +353,12 @@ RealDevice::RealDevice(int x, int y, double p, double n) {
 	const double
 		cn=-1;
 	NL_LTP_Gp=p;
-	NL_LTD_Gp=p;
+	NL_LTD_Gp=n;
 	const double
 		np=1;
 	const double
 		nd=-1;
-	NL_LTP_Gn=n;
+	NL_LTP_Gn=p;
 	NL_LTD_Gn=n;
 
 	sigmaDtoD = 0;	// Sigma of device-to-device weight update vairation in gaussian distribution
