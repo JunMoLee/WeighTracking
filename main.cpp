@@ -146,7 +146,7 @@ int main() {
 		fstream read;
 		read.open("weightchecknew4.csv",fstream::app);                                                         
 																	
-		for (int i=1; i<=5; i++) {
+		for (int i=1; i<=125; i++) {
 		cout << "Training Epoch : " << i << endl; 
 		Train(param->numTrainImagesPerEpoch, param->interNumEpochs,param->optimization_type, i);
 		if (!param->useHardwareInTraining && param->useHardwareInTestingFF) { WeightToConductance(); }
