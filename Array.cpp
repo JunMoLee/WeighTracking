@@ -185,7 +185,7 @@ void Array::WriteCell(int x, int y, double deltaWeight, double weight, double ma
 			static_cast<RealDevice*>(cell[x][y])->newWrite(deltaWeight, weight, minWeight, maxWeight);
 		} */
 		
-		static_cast<RealDevice*>(cell[x][y])->newWrite(deltaWeight, weight, minWeight, maxWeight);
+		static_cast<AnalogNVM*>(cell[x][y])->Write(deltaWeight, weight, minWeight, maxWeight);
 		
 		} 
         else 
