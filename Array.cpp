@@ -177,14 +177,15 @@ void Array::WriteCell(int x, int y, double deltaWeight, double weight, double ma
 		//printf("Writing cell....\n");
         if (regular) 
         {	// Regular write
-		if(!newupdate){
+		/* if(!newupdate){
 			static_cast<AnalogNVM*>(cell[x][y])->Write(deltaWeight, weight, minWeight, maxWeight);
 		}
 		// Reverse update
 		else {
 			static_cast<RealDevice*>(cell[x][y])->newWrite(deltaWeight, weight, minWeight, maxWeight);
-		}
+		} */
 		
+		static_cast<RealDevice*>(cell[x][y])->newWrite(deltaWeight, weight, minWeight, maxWeight);
 		
 		} 
         else 
