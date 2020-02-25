@@ -42,5 +42,6 @@
 void ReadTrainingDataFromFile(const char *trainPatchFileName, const char *trainLabelFileName);
 void ReadTestingDataFromFile(const char *testPatchFileName, const char *testLabelFileName);
 void PrintWeightToFile(const char *str);
+void SaturationCount();
 
 #endif
