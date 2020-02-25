@@ -167,3 +167,24 @@ void PrintWeightToFile(const char *str) {
 	fclose(fp_dw2);
 }
 
+void SaturationCount(){
+	
+	int positivesaturationIH=0;
+	int negativesaturationIH=0;
+	int positivesaturationHO=0;
+	int negativesaturationHO=0;
+	
+for (int j = 0; j < param->nHide; j++){
+	for (int k = 0; k < param->nInput; k++){
+			if(weight1[j][k]==1) positivesaturationIH++;
+		        if(weight1[j][k]==-1) negativesaturationIH++;}}
+			
+			
+for (int j = 0; j < param->nOutput; j++){
+	for (int k = 0; k < param->nHide; k++){
+		if(weight2[j][k]==1) positivesaturationHO++;
+		if(weight2[j][k]==-1) negativesaturationHO++;}}
+
+cout<<" positivesaturationIH "<<positivesaturationIH<<" negativesaturationIH "<<negativesaturationIH;
+cout<<" positivesaturationHO "<<positivesaturationHO<<" negativesaturationHO "<<negativesaturationHO;
+}
