@@ -45,6 +45,7 @@
 #include "Param.h"
 #include "Cell.h"
 #include "Array.h"
+using namespace std;
 
 extern Param *param;
 extern Array *arrayIH;
