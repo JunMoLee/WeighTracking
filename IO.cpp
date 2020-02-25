@@ -190,3 +190,27 @@ cout<<" weightIH=1 "<<positivesaturationIH<<" weightIH=-1 "<<negativesaturationI
 cout<<" weightHO=1 "<<positivesaturationHO<<" weightHO=-1 "<<negativesaturationHO;
 cout<<endl;
 }
+
+void SaturationCount(){
+	
+	
+	int positivesaturationIH=0;
+	int negativesaturationIH=0;
+	int positivesaturationHO=0;
+	int negativesaturationHO=0;
+	
+for (int j = 0; j < param->nHide; j++){
+	for (int k = 0; k < param->nInput; k++){
+			if(static_cast<RealDevice*>(arrayIH->cell[j][k])->conductanceGp==static_cast<RealDevice*>(arrayIH->cell[j][k])->pmaxConductance) positivesaturationIH++;
+		        if(static_cast<RealDevice*>(arrayIH->cell[j][k])->conductanceGn==static_cast<RealDevice*>(arrayIH->cell[j][k])->nmaxConductance) negativesaturationIH++;}}
+			
+			
+for (int j = 0; j < param->nOutput; j++){
+	for (int k = 0; k < param->nHide; k++){
+		if(static_cast<RealDevice*>(arrayHO->cell[j][k])->conductanceGp==static_cast<RealDevice*>(arrayHO->cell[j][k])->pmaxConductance) positivesaturationHO++;
+		if(static_cast<RealDevice*>(arrayHO->cell[j][k])->conductanceGn==static_cast<RealDevice*>(arrayHO->cell[j][k])->nmaxConductance) negativesaturationHO++;}}
+
+cout<<" GpIHsat=1 "<<positivesaturationIH<<" GnIHsat=1 "<<negativesaturationIH;
+cout<<" GpHOsat=1 "<<positivesaturationHO<<" GnHOsat=1 "<<negativesaturationHO;
+cout<<endl;
+}
