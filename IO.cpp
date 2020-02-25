@@ -186,7 +186,7 @@ for (int j = 0; j < param->nOutput; j++){
 		if(weight2[j][k]==1) positivesaturationHO++;
 		if(weight2[j][k]==-1) negativesaturationHO++;}}
 
-cout<<" positivesaturationIH "<<positivesaturationIH<<" negativesaturationIH "<<negativesaturationIH;
-cout<<" positivesaturationHO "<<positivesaturationHO<<" negativesaturationHO "<<negativesaturationHO;
+cout<<" weightIH=1 "<<positivesaturationIH<<" weightIH=-1 "<<negativesaturationIH;
+cout<<" weightHO=1 "<<positivesaturationHO<<" weightHO=-1 "<<negativesaturationHO;
 cout<<endl;
 }
