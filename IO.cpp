@@ -191,7 +191,7 @@ cout<<" weightHO=1 "<<positivesaturationHO<<" weightHO=-1 "<<negativesaturationH
 cout<<endl;
 }
 
-void SaturationCount(){
+void SaturationCountc(){
 	
 	
 	int positivesaturationIH=0;
