@@ -454,7 +454,7 @@ void RealDevice::Write(double deltaWeightNormalized, double weight, double minWe
 		}
 	} else {	// LTD weight update
 		GpGnCell = false;
-		deltaWeightNormalized = -totalcondrange/ncondrange*deltaWeightNormalized/(maxWeight-minWeight);
+		deltaWeightNormalized = -nalpha/alpha1*totalcondrange/ncondrange*deltaWeightNormalized/(maxWeight-minWeight);
 		deltaWeightNormalized = truncate(deltaWeightNormalized, maxNumLevelnLTP);
 		numPulse = deltaWeightNormalized * maxNumLevelnLTP;
 		if (numPulse > maxNumLevelnLTP) {
