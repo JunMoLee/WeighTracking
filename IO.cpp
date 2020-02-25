@@ -188,4 +188,5 @@ for (int j = 0; j < param->nOutput; j++){
 
 cout<<" positivesaturationIH "<<positivesaturationIH<<" negativesaturationIH "<<negativesaturationIH;
 cout<<" positivesaturationHO "<<positivesaturationHO<<" negativesaturationHO "<<negativesaturationHO;
+cout<<endl;
 }
