@@ -118,8 +118,8 @@ public:
 
 class AnalogNVM: public eNVM {
 public: 
-	int upc;
-	int unc;
+	int upc=0;
+	int unc=0;
 	int maxNumLevelpLTP;	// Maximum number of conductance states during LTP or weight increase
 	int maxNumLevelpLTD;	// Maximum number of conductance states during LTD or weight decrease
 	int maxNumLevelnLTP;
