@@ -144,9 +144,9 @@ int main() {
 		printf("opt: %s NL_LTP_Gp:%.1f NL_LTD_Gp:%.1f NL_LTP_Gn:%.1f NL_LTD_Gn:%.1f CSpP: %d CSpD: %d CSnP: %d CSnD: %d OnOffGp: %.1f OnOffGn: %.1f LA: %.2f RefreshRate: %d\n", param->optimization_type, NL_LTP_Gp, NL_LTD_Gp, NL_LTP_Gn, NL_LTD_Gn, kp, kd, knp, knd, pof, nof, LA, newUpdateRate);
 		bool write_or_not=1;
 		fstream read;
-		read.open("reversecheck.csv",fstream::app);                                                         
+		read.open("weightcheck.csv",fstream::app);                                                         
 																	
-		for (int i=1; i<=125; i++) {
+		for (int i=1; i<=5; i++) {
 		cout << "Training Epoch : " << i << endl; 
 		Train(param->numTrainImagesPerEpoch, param->interNumEpochs,param->optimization_type, i);
 		if (!param->useHardwareInTraining && param->useHardwareInTestingFF) { WeightToConductance(); }
