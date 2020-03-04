@@ -441,6 +441,7 @@ void RealDevice::Write(double deltaWeightNormalized, double weight, double minWe
 	
 	bool GpGnCell = true;
 	if (deltaWeightNormalized > 0) {	// LTP weight update
+		upc++;
 		GpGnCell = true;
 		deltaWeightNormalized = totalcondrange/pcondrange*deltaWeightNormalized/(maxWeight-minWeight);
 		deltaWeightNormalized = truncate(deltaWeightNormalized, maxNumLevelpLTP);
@@ -456,6 +457,7 @@ void RealDevice::Write(double deltaWeightNormalized, double weight, double minWe
 			conductanceNewGp = (xPulse+numPulse) / maxNumLevelpLTP * (pmaxConductance - pminConductance) + pminConductance;
 		}
 	} else {	// LTD weight update
+		if (deltaWeightNormalized < 0) unc++;
 		GpGnCell = false;
 		deltaWeightNormalized = -param->nalpha/param->alpha1*totalcondrange/ncondrange*deltaWeightNormalized/(maxWeight-minWeight);
 		deltaWeightNormalized = truncate(deltaWeightNormalized, maxNumLevelnLTP);
