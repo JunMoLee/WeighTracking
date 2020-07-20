@@ -63,6 +63,12 @@ deltaWeight1(param->nHide, std::vector<double>(param->nInput));
 std::vector< std::vector<double> >
 deltaWeight2(param->nOutput, std::vector<double>(param->nHide));
 
+/*(JUNMO) Weighttrack - positive/negative signal*/
+std::vector< std::vector<double> >
+IHsignalcount(param->nHide, std::vector<double>(param->nInput));
+std::vector< std::vector<double> >
+HOsignalcount(param->nOutput, std::vector<double>(param->nHide));
+
 /*the variables to track the ΔW*/
 std::vector< std::vector<double> >
 totalDeltaWeight1(param->nHide, std::vector<double>(param->nInput));
